@@ -41,6 +41,10 @@ bash scripts/build.sh
 2. Resolver conflitos, se houver, e gerar `patches/brazuca-<nova-tag>.patch` com `git format-patch -1`.
 3. Compilar com `MB_TAG=<nova-tag> bash scripts/build.sh`.
 
+## Isolamento de dados por cliente (`tenancy/`)
+
+`tenancy/erp-views.sh <company_id> [--new-user]` cria o schema `erp_rpt_c<ID>` com uma view por tabela do ERP, filtrada pela empresa, e o usuário MariaDB `mb_rpt_c<ID>` com acesso apenas a esse schema. Tabelas de credenciais, sessões e configurações internas ficam de fora, assim como colunas de senha, token, hash e chaves de API. No Analytics, cada cliente vê só a sua conexão.
+
 ## Licença
 
 AGPL v3 — ver `LICENSE`. "Metabase" é marca registrada da Metabase, Inc.; este projeto não é afiliado nem endossado pela Metabase, Inc.
