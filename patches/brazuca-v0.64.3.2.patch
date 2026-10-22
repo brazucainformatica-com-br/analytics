@@ -1,0 +1,2487 @@
+From 6df5d4af93e968482ed94c15146924813d122835 Mon Sep 17 00:00:00 2001
+From: Brazuca Informatica <lucas.fernando@brazucainformatica.com.br>
+Date: Thu, 22 Oct 2026 11:06:32 -0400
+Subject: [PATCH] Brazuca: identidade visual Analytics sobre Metabase OSS
+ v0.64.3.2
+
+---
+ .../common/components/LogoIcon/LogoIcon.tsx   | 176 +-----
+ .../nav/components/AboutModal/AboutModal.tsx  |  19 +-
+ frontend/src/metabase/plugins/oss/core.ts     |  23 +-
+ .../ui/colors/constants/accent-colors.ts      |  17 +-
+ .../ui/colors/constants/themes/dark.ts        |   2 +-
+ .../ui/colors/constants/themes/light.ts       |   2 +-
+ locales/pt-BR.po                              | 500 +++++++++---------
+ .../app/assets/img/site.webmanifest           |  10 +-
+ resources/frontend_client/index_template.html |   4 +-
+ resources/frontend_client/init.html           |   4 +-
+ src/metabase/appearance/settings.clj          |  12 +-
+ 11 files changed, 305 insertions(+), 464 deletions(-)
+
+diff --git a/frontend/src/metabase/common/components/LogoIcon/LogoIcon.tsx b/frontend/src/metabase/common/components/LogoIcon/LogoIcon.tsx
+index 9ced37b7..db7e2a8f 100644
+--- a/frontend/src/metabase/common/components/LogoIcon/LogoIcon.tsx
++++ b/frontend/src/metabase/common/components/LogoIcon/LogoIcon.tsx
+@@ -1,6 +1,3 @@
+-import cx from "classnames";
+-
+-import CS from "metabase/css/core/index.css";
+ import { PLUGIN_LOGO_ICON_COMPONENTS } from "metabase/plugins";
+ 
+ interface LogoIconProps {
+@@ -10,169 +7,22 @@ interface LogoIconProps {
+   fill?: string;
+ }
+ 
+-export const DefaultLogoIcon = ({
+-  dark,
+-  height = 32,
+-  width,
+-  fill = "currentcolor",
+-}: LogoIconProps) => {
++// Brazuca: logo da Brazuca Informatica (versao branca em fundos escuros)
++export const DefaultLogoIcon = ({ dark, height = 32, width }: LogoIconProps) => {
+   return (
+-    <svg
+-      className={cx(
+-        "Icon",
+-        { [CS.textMetabaseBrand]: !dark },
+-        { [CS.textWhite]: dark },
+-      )}
+-      viewBox="0 0 212 256"
+-      width={width}
++    <img
++      className="Icon"
++      src={
++        dark
++          ? "app/assets/img/brazuca/logo-white.png"
++          : "app/assets/img/brazuca/logo.png"
++      }
++      alt="Analytics"
+       height={height}
+-      fill={fill}
++      width={width}
++      style={{ display: "block", objectFit: "contain", maxWidth: "100%" }}
+       data-testid="main-logo"
+-    >
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M15.5514 76.0822C24.1402 76.0822 31.1028 69.1196 31.1028 60.5308C31.1028 51.942 24.1402 44.9794 15.5514 44.9794C6.9626 44.9794 0 51.942 0 60.5308C0 69.1196 6.9626 76.0822 15.5514 76.0822Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M15.5514 121.062C24.1402 121.062 31.1028 114.099 31.1028 105.51C31.1028 96.9215 24.1402 89.9589 15.5514 89.9589C6.9626 89.9589 0 96.9215 0 105.51C0 114.099 6.9626 121.062 15.5514 121.062Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M60.5309 121.062C69.1197 121.062 76.0823 114.099 76.0823 105.51C76.0823 96.9215 69.1197 89.9589 60.5309 89.9589C51.9421 89.9589 44.9795 96.9215 44.9795 105.51C44.9795 114.099 51.9421 121.062 60.5309 121.062Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M195.469 76.0822C204.058 76.0822 211.021 69.1196 211.021 60.5308C211.021 51.942 204.058 44.9794 195.469 44.9794C186.88 44.9794 179.918 51.942 179.918 60.5308C179.918 69.1196 186.88 76.0822 195.469 76.0822Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M150.49 121.062C159.079 121.062 166.041 114.099 166.041 105.51C166.041 96.9215 159.079 89.9589 150.49 89.9589C141.901 89.9589 134.938 96.9215 134.938 105.51C134.938 114.099 141.901 121.062 150.49 121.062Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 166.041C114.099 166.041 121.062 159.079 121.062 150.49C121.062 141.901 114.099 134.938 105.51 134.938C96.9215 134.938 89.9589 141.901 89.9589 150.49C89.9589 159.079 96.9215 166.041 105.51 166.041Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M195.469 121.062C204.058 121.062 211.021 114.099 211.021 105.51C211.021 96.9215 204.058 89.9589 195.469 89.9589C186.88 89.9589 179.918 96.9215 179.918 105.51C179.918 114.099 186.88 121.062 195.469 121.062Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M15.5514 166.041C24.1402 166.041 31.1028 159.079 31.1028 150.49C31.1028 141.901 24.1402 134.938 15.5514 134.938C6.9626 134.938 0 141.901 0 150.49C0 159.079 6.9626 166.041 15.5514 166.041Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M195.469 166.041C204.058 166.041 211.021 159.079 211.021 150.49C211.021 141.901 204.058 134.938 195.469 134.938C186.88 134.938 179.918 141.901 179.918 150.49C179.918 159.079 186.88 166.041 195.469 166.041Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M15.5514 211.021C24.1402 211.021 31.1028 204.058 31.1028 195.469C31.1028 186.88 24.1402 179.918 15.5514 179.918C6.9626 179.918 0 186.88 0 195.469C0 204.058 6.9626 211.021 15.5514 211.021Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M195.469 211.021C204.058 211.021 211.021 204.058 211.021 195.469C211.021 186.88 204.058 179.918 195.469 179.918C186.88 179.918 179.918 186.88 179.918 195.469C179.918 204.058 186.88 211.021 195.469 211.021Z"
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M60.5309 76.0822C69.1197 76.0822 76.0823 69.1196 76.0823 60.5308C76.0823 51.942 69.1197 44.9794 60.5309 44.9794C51.9421 44.9794 44.9795 51.942 44.9795 60.5308C44.9795 69.1196 51.9421 76.0822 60.5309 76.0822Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 76.0822C114.099 76.0822 121.062 69.1196 121.062 60.5308C121.062 51.942 114.099 44.9794 105.51 44.9794C96.9215 44.9794 89.9589 51.942 89.9589 60.5308C89.9589 69.1196 96.9215 76.0822 105.51 76.0822Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 31.1028C114.099 31.1028 121.062 24.1402 121.062 15.5514C121.062 6.9626 114.099 0 105.51 0C96.9215 0 89.9589 6.9626 89.9589 15.5514C89.9589 24.1402 96.9215 31.1028 105.51 31.1028Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 121.062C114.099 121.062 121.062 114.099 121.062 105.51C121.062 96.9215 114.099 89.9589 105.51 89.9589C96.9215 89.9589 89.9589 96.9215 89.9589 105.51C89.9589 114.099 96.9215 121.062 105.51 121.062Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M150.49 76.0822C159.079 76.0822 166.041 69.1196 166.041 60.5308C166.041 51.942 159.079 44.9794 150.49 44.9794C141.901 44.9794 134.938 51.942 134.938 60.5308C134.938 69.1196 141.901 76.0822 150.49 76.0822Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M60.5309 166.041C69.1197 166.041 76.0823 159.079 76.0823 150.49C76.0823 141.901 69.1197 134.938 60.5309 134.938C51.9421 134.938 44.9795 141.901 44.9795 150.49C44.9795 159.079 51.9421 166.041 60.5309 166.041Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M150.49 166.041C159.079 166.041 166.041 159.079 166.041 150.49C166.041 141.901 159.079 134.938 150.49 134.938C141.901 134.938 134.938 141.901 134.938 150.49C134.938 159.079 141.901 166.041 150.49 166.041Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M60.5309 211.021C69.1197 211.021 76.0823 204.058 76.0823 195.469C76.0823 186.88 69.1197 179.918 60.5309 179.918C51.9421 179.918 44.9795 186.88 44.9795 195.469C44.9795 204.058 51.9421 211.021 60.5309 211.021Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 211.021C114.099 211.021 121.062 204.058 121.062 195.469C121.062 186.88 114.099 179.918 105.51 179.918C96.9215 179.918 89.9589 186.88 89.9589 195.469C89.9589 204.058 96.9215 211.021 105.51 211.021Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M105.51 256C114.099 256 121.062 249.037 121.062 240.449C121.062 231.86 114.099 224.897 105.51 224.897C96.9215 224.897 89.9589 231.86 89.9589 240.449C89.9589 249.037 96.9215 256 105.51 256Z"
+-        opacity={0.2}
+-      />
+-      <path
+-        fill="currentColor"
+-        fillRule="evenodd"
+-        clipRule="evenodd"
+-        d="M150.49 211.021C159.079 211.021 166.041 204.058 166.041 195.469C166.041 186.88 159.079 179.918 150.49 179.918C141.901 179.918 134.938 186.88 134.938 195.469C134.938 204.058 141.901 211.021 150.49 211.021Z"
+-        opacity={0.2}
+-      />
+-    </svg>
++    />
+   );
+ };
+ 
+diff --git a/frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx b/frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx
+index 9fddd0c4..e20e854f 100644
+--- a/frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx
++++ b/frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx
+@@ -31,6 +31,7 @@ export const AboutModal = ({
+   const { tag, date, ...versionExtra } = version;
+ 
+   const isWhiteLabeling = useSelector(getIsWhiteLabeling);
++  // Brazuca: exibe o aviso de licenca AGPL e o link do codigo-fonte modificado
+   const showTrademark = !isWhiteLabeling;
+ 
+   return (
+@@ -60,15 +61,17 @@ export const AboutModal = ({
+               <Divider size={2} w="100%" />
+               <Stack align="center" gap={0}>
+                 <Text fz="sm" fw="bold" c="text-secondary" lh="sm">
+-                  {/* eslint-disable-next-line metabase/no-literal-metabase-strings -- This only shows on OSS instance */}
+-                  {t`Metabase is a Trademark of Metabase, Inc`}
++                  Brazuca Informática · baseado no Metabase OSS (AGPL v3)
++                </Text>
++                <Text fz="sm" c="text-secondary" lh="sm">
++                  <a
++                    href="https://github.com/brazucainformatica-com-br/analytics"
++                    target="_blank"
++                    rel="noreferrer"
++                  >
++                    Código-fonte desta versão
++                  </a>
+                 </Text>
+-                <Text
+-                  fz="sm"
+-                  fw="bold"
+-                  c="text-secondary"
+-                  lh="sm"
+-                >{t`and is built with care by a team from all across this pale blue dot.`}</Text>
+               </Stack>
+             </>
+           )}
+diff --git a/frontend/src/metabase/plugins/oss/core.ts b/frontend/src/metabase/plugins/oss/core.ts
+index cc52a145..3eede10e 100644
+--- a/frontend/src/metabase/plugins/oss/core.ts
++++ b/frontend/src/metabase/plugins/oss/core.ts
+@@ -32,16 +32,6 @@ interface PluginDashboardSubscriptionParametersSectionOverride {
+   }>;
+ }
+ 
+-const defaultLandingPageIllustration = {
+-  src: "app/img/bridge.svg",
+-  isDefault: true,
+-};
+-
+-const defaultLoginPageIllustration = {
+-  src: "app/img/bridge.svg",
+-  isDefault: true,
+-};
+-
+ const getLoadingMessage = (isSlow: boolean | undefined = false) =>
+   isSlow ? t`Waiting for results...` : t`Doing science...`;
+ 
+@@ -97,14 +87,11 @@ const getDefaultSelectors = () => ({
+   getLoadingMessageFactory: (_state: State) => getLoadingMessage,
+   getIsWhiteLabeling: (_state: State) => false,
+   // eslint-disable-next-line metabase/no-literal-metabase-strings -- This is the actual Metabase name, so we don't want to translate it.
+-  getApplicationName: (_state: State) => "Metabase",
+-  getShowMetabaseLinks: (_state: State) => true,
+-  getLoginPageIllustration: (_state: State): IllustrationValue => {
+-    return defaultLoginPageIllustration;
+-  },
+-  getLandingPageIllustration: (_state: State): IllustrationValue => {
+-    return defaultLandingPageIllustration;
+-  },
++  getApplicationName: (_state: State) => "Analytics",
++  getShowMetabaseLinks: (_state: State) => false,
++  // Brazuca: sem ilustracoes de terceiros na tela de login e na pagina inicial
++  getLoginPageIllustration: (_state: State): IllustrationValue => null,
++  getLandingPageIllustration: (_state: State): IllustrationValue => null,
+   getNoDataIllustration: (_state: State): string | null => {
+     return noResultsSource;
+   },
+diff --git a/frontend/src/metabase/ui/colors/constants/accent-colors.ts b/frontend/src/metabase/ui/colors/constants/accent-colors.ts
+index 58ce8117..ee5d9822 100644
+--- a/frontend/src/metabase/ui/colors/constants/accent-colors.ts
++++ b/frontend/src/metabase/ui/colors/constants/accent-colors.ts
+@@ -7,14 +7,15 @@ import { getBaseColorsForThemeDefinitionOnly } from "./base-colors";
+ const baseColors = getBaseColorsForThemeDefinitionOnly();
+ 
+ export const DEFAULT_ACCENT_COLORS: ChartColorV2[] = [
+-  "#509EE3", // accent0 - blue
+-  "#88BF4D", // accent1 - green
+-  "#A989C5", // accent2 - purple
+-  "#EF8C8C", // accent3 - red
+-  "#F9D45C", // accent4 - yellow
+-  "#F2A86F", // accent5 - orange
+-  "#98D9D9", // accent6 - cyan
+-  "#7172AD", // accent7 - indigo
++  // Brazuca: paleta institucional
++  "#4056D6", // accent0 - azul Brazuca
++  "#3E8E41", // accent1 - verde Brazuca
++  "#F2B233", // accent2 - dourado Brazuca
++  "#E5675C", // accent3 - coral
++  "#101C33", // accent4 - azul-marinho Brazuca
++  "#8C9BEA", // accent5 - azul claro
++  "#8FC79A", // accent6 - verde claro
++  "#5A6474", // accent7 - grafite
+ ];
+ 
+ export const LIGHT_THEME_ACCENT_COLORS: ChartColorV2[] = [
+diff --git a/frontend/src/metabase/ui/colors/constants/themes/dark.ts b/frontend/src/metabase/ui/colors/constants/themes/dark.ts
+index e1188cc6..5079144d 100644
+--- a/frontend/src/metabase/ui/colors/constants/themes/dark.ts
++++ b/frontend/src/metabase/ui/colors/constants/themes/dark.ts
+@@ -36,7 +36,7 @@ const deprecatedColors = {
+   "background-error": baseColors.lobster[90],
+   "background-success": baseColors.palm[90],
+   "background-success-secondary": baseColors.palm[70],
+-  brand: baseColors.blue[40],
++  brand: "#4056D6", // Brazuca: azul institucional
+   "brand-hover": baseColors.brand[30],
+   danger: baseColors.lobster[50],
+   error: baseColors.lobster[50],
+diff --git a/frontend/src/metabase/ui/colors/constants/themes/light.ts b/frontend/src/metabase/ui/colors/constants/themes/light.ts
+index acb5ef39..0fdb19d1 100644
+--- a/frontend/src/metabase/ui/colors/constants/themes/light.ts
++++ b/frontend/src/metabase/ui/colors/constants/themes/light.ts
+@@ -31,7 +31,7 @@ const deprecatedColors = {
+   "background-error": baseColors.lobster[10],
+   "background-success": baseColors.palm[5],
+   "background-success-secondary": baseColors.palm[20],
+-  brand: baseColors.blue[40],
++  brand: "#4056D6", // Brazuca: azul institucional
+   "brand-hover": baseColors.brand[50],
+   danger: baseColors.lobster[50],
+   error: baseColors.lobster[50],
+diff --git a/locales/pt-BR.po b/locales/pt-BR.po
+index fff90fe4..9cd4ff52 100644
+--- a/locales/pt-BR.po
++++ b/locales/pt-BR.po
+@@ -208,7 +208,7 @@ msgstr "Use os resultados de qualquer pergunta para iniciar uma nova pergunta."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationModal/ImpersonationModalView.tsx
+ msgid "Map a Metabase user attribute to database users"
+-msgstr "Mapeie um atributo de usuário do Metabase para usuários do banco de dados"
++msgstr "Mapeie um atributo de usuário do Analytics para usuários do banco de dados"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationModal/ImpersonationModalView.tsx
+ msgid "Map a user attribute to database roles"
+@@ -216,11 +216,11 @@ msgstr "Mapeie um atributo de usuário para funções de banco de dados"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationModal/ImpersonationModalView.tsx
+ msgid "When the person runs a query (including native queries), Metabase will impersonate the privileges of the database user you associate with the user attribute."
+-msgstr "Quando a pessoa executa uma consulta (incluindo consultas nativas), o Metabase representa os privilégios do usuário do banco de dados que você associa ao atributo de usuário."
++msgstr "Quando a pessoa executa uma consulta (incluindo consultas nativas), o Analytics representa os privilégios do usuário do banco de dados que você associa ao atributo de usuário."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationModal/ImpersonationModalView.tsx
+ msgid "When the person runs a query (including native queries), Metabase will impersonate the privileges of the database role you associate with the user attribute."
+-msgstr "Quando a pessoa executa uma consulta (incluindo consultas nativas), o Metabase representa os privilégios da função de banco de dados que você associa ao atributo de usuário."
++msgstr "Quando a pessoa executa uma consulta (incluindo consultas nativas), o Analytics representa os privilégios da função de banco de dados que você associa ao atributo de usuário."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationModal/ImpersonationModalView.tsx
+ msgid "Learn More"
+@@ -462,17 +462,17 @@ msgstr "Editar configurações do usuário"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationWarning/ImpersonationWarning.tsx
+ msgid "Make sure the main database credential has access to everything different user groups may need access to. It's what Metabase uses to sync table information."
+-msgstr "Certifique-se de que a credencial principal do banco de dados tenha acesso a tudo o que os diferentes grupos de usuários possam precisar acessar. É ela que o Metabase usa para sincronizar as informações da tabela."
++msgstr "Certifique-se de que a credencial principal do banco de dados tenha acesso a tudo o que os diferentes grupos de usuários possam precisar acessar. É ela que o Analytics usa para sincronizar as informações da tabela."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationWarning/ImpersonationWarning.tsx
+ #, javascript-format
+ msgid "You’re connecting Metabase to the {0} database using the credentials for the Redshift user {1}. For impersonation to work,  {2} must be a superuser in Redshift."
+-msgstr "Você está conectando o Metabase ao banco de dados {0} usando as credenciais do usuário Redshift {1}. Para que a representação funcione,  {2} deve ser um superusuário no Redshift."
++msgstr "Você está conectando o Analytics ao banco de dados {0} usando as credenciais do usuário Redshift {1}. Para que a representação funcione,  {2} deve ser um superusuário no Redshift."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationWarning/ImpersonationWarning.tsx
+ #, javascript-format
+ msgid "{0} is the database user Metabase is using to connect to your  {1} database. Make sure that {2} has access to everything in {3} that all Metabase groups may need access to, as that database user account is what Metabase uses to sync table information."
+-msgstr "{0} é o usuário do banco de dados que o Metabase está usando para se conectar ao seu banco de dados {1}. Certifique-se de que {2} tenha acesso a tudo em {3} que todos os grupos do Metabase possam precisar acessar, pois essa conta de usuário de banco de dados é o que o Metabase usa para sincronizar as informações da tabela."
++msgstr "{0} é o usuário do banco de dados que o Analytics está usando para se conectar ao seu banco de dados {1}. Certifique-se de que {2} tenha acesso a tudo em {3} que todos os grupos do Analytics possam precisar acessar, pois essa conta de usuário de banco de dados é o que o Analytics usa para sincronizar as informações da tabela."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/advanced_permissions/components/ImpersonationWarning/ImpersonationWarning.tsx
+ #: enterprise/frontend/src/metabase-enterprise/smtp-override/components/CloudSMTPConnectionCard.tsx
+@@ -559,11 +559,11 @@ msgstr "O nome do agente de IA é obrigatório"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/ai-controls/pages/MetabotCustomizationPage/MetabotCustomizationUpsellPage.tsx
+ msgid "Pick the look and feel of Metabase’s AI agent"
+-msgstr "Escolha a aparência do agente de IA do Metabase"
++msgstr "Escolha a aparência do agente de IA do Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/ai-controls/pages/MetabotCustomizationPage/MetabotCustomizationUpsellPage.tsx
+ msgid "Customize the name, icon, and illustrations used in AI chat experiences in Metabase."
+-msgstr "Personalize o nome, o ícone e as ilustrações usadas nas experiências de chat com IA no Metabase."
++msgstr "Personalize o nome, o ícone e as ilustrações usadas nas experiências de chat com IA no Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/ai-controls/pages/MetabotCustomizationPage/MetabotIconField.tsx
+ msgid "The image you chose is larger than 1MB. Please choose another one."
+@@ -1242,7 +1242,7 @@ msgstr "Isso excluirá todas as assinaturas de painel ou alertas que {0} criou e
+ 
+ #: enterprise/frontend/src/metabase-enterprise/audit_app/containers/UnsubscribeUserModal/UnsubscribeUserModal.tsx
+ msgid "This does not affect email distribution lists that are managed outside of Metabase."
+-msgstr "Isso não afeta listas de distribuição de e-mail gerenciadas fora do Metabase."
++msgstr "Isso não afeta listas de distribuição de e-mail gerenciadas fora do Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/audit_app/index.tsx
+ msgid "Unsubscribe from all subscriptions / alerts"
+@@ -1783,7 +1783,7 @@ msgstr "Ativado: Quando um usuário faz login via {0}, crie automaticamente uma
+ #: enterprise/frontend/src/metabase-enterprise/auth/utils.ts
+ #, javascript-format
+ msgid "Disabled: Only users with active Metabase accounts can log in using {0}."
+-msgstr "Desativado: Apenas usuários com contas ativas do Metabase podem fazer login usando {0}."
++msgstr "Desativado: Apenas usuários com contas ativas do Analytics podem fazer login usando {0}."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/caching/components/DatabaseCachingEditor.tsx
+ #, javascript-format
+@@ -2328,7 +2328,7 @@ msgstr "Ocorreu um erro"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/content_translation/components/ContentTranslationConfiguration/ContentTranslationConfiguration.tsx
+ msgid "Upload a translation dictionary to translate strings both in Metabase content (like dashboard titles) and in the data itself (like column names and values). The dictionary must be a CSV with these columns: **Locale Code**, **String**, **Translation**."
+-msgstr "Faça upload de um dicionário de tradução para traduzir strings tanto no conteúdo do Metabase (como títulos de dashboards) quanto nos próprios dados (como nomes e valores de colunas). O dicionário deve ser um CSV com estas colunas: **Código de localidade**, **String**, **Tradução**."
++msgstr "Faça upload de um dicionário de tradução para traduzir strings tanto no conteúdo do Analytics (como títulos de dashboards) quanto nos próprios dados (como nomes e valores de colunas). O dicionário deve ser um CSV com estas colunas: **Código de localidade**, **String**, **Tradução**."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/content_translation/components/ContentTranslationConfiguration/ContentTranslationConfiguration.tsx
+ msgid "Translate embedded dashboards and questions"
+@@ -2574,7 +2574,7 @@ msgstr "Bundle: {0}"
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/CustomVizPluginSummary.tsx
+ #, javascript-format
+ msgid "Requires Metabase {0}"
+-msgstr "Requer Metabase {0}"
++msgstr "Requer Analytics {0}"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/CustomVizPluginSummary.tsx
+ msgid "See the SDK changelog"
+@@ -2643,17 +2643,17 @@ msgstr "Você não tem nenhuma visualização personalizada."
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/warning-messages.ts
+ #, javascript-format
+ msgid "Built with SDK version {0}, but this version of Metabase was tested with SDK {1}."
+-msgstr "Criado com a versão do SDK {0}, mas esta versão do Metabase foi testada com o SDK {1}."
++msgstr "Criado com a versão do SDK {0}, mas esta versão do Analytics foi testada com o SDK {1}."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/warning-messages.ts
+ #, javascript-format
+ msgid "Built with SDK version 1.x, but this version of Metabase was tested with SDK {0}."
+-msgstr "Criado com a versão do SDK 1.x, mas esta versão do Metabase foi testada com o SDK {0}."
++msgstr "Criado com a versão do SDK 1.x, mas esta versão do Analytics foi testada com o SDK {0}."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/warning-messages.ts
+ #, javascript-format
+ msgid "Requires Metabase {0}, but this instance is on {1}."
+-msgstr "Requer o Metabase {0}, mas esta instância está na {1}."
++msgstr "Requer o Analytics {0}, mas esta instância está na {1}."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/custom_viz/components/warning-messages.ts
+ #, javascript-format
+@@ -3601,7 +3601,7 @@ msgstr "Habilidades de IA"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/data_apps/admin/components/DataAppSkillsSection/DataAppSkillsSection.tsx
+ msgid "Install Metabase Data App skills in your project, then ask your AI agent to create a data app."
+-msgstr "Instale as habilidades de Data Apps do Metabase no seu projeto e depois peça ao seu agente de IA para criar um app de dados."
++msgstr "Instale as habilidades de Data Apps do Analytics no seu projeto e depois peça ao seu agente de IA para criar um app de dados."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/data_apps/admin/components/DataAppSkillsSection/DataAppSkillsSection.tsx
+ msgid "Install command"
+@@ -3642,7 +3642,7 @@ msgstr "Apps React gerados por IA sobre sua camada semântica"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/data_apps/admin/components/DataAppsPromoBanner/DataAppsBanner.tsx
+ msgid "Have your AI agent of choice use Metabase's Data App skills to build a custom app backed by git, using the vetted metrics and data you've defined within Metabase."
+-msgstr "Faça com que o agente de IA de sua escolha use as habilidades de Data Apps do Metabase para criar um app personalizado com suporte do git, usando as métricas e os dados validados que você definiu no Metabase."
++msgstr "Faça com que o agente de IA de sua escolha use as habilidades de Data Apps do Analytics para criar um app personalizado com suporte do git, usando as métricas e os dados validados que você definiu no Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/data_apps/components/DataAppView/DataAppView.tsx
+ #, javascript-format
+@@ -3905,7 +3905,7 @@ msgstr "Concluído"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/database_routing/DatabaseRoutingSection/DatabaseRoutingSection.tsx
+ msgid "When someone views a question using data from this database, Metabase will send the queries to the destination database set by the person's user attribute. Each destination database must have identical schemas."
+-msgstr "Quando alguém visualiza uma pergunta usando dados deste banco de dados, o Metabase envia as consultas para o banco de dados de destino definido pelo atributo de usuário da pessoa. Cada banco de dados de destino deve ter esquemas idênticos."
++msgstr "Quando alguém visualiza uma pergunta usando dados deste banco de dados, o Analytics envia as consultas para o banco de dados de destino definido pelo atributo de usuário da pessoa. Cada banco de dados de destino deve ter esquemas idênticos."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/database_routing/DatabaseRoutingSection/DatabaseRoutingSection.tsx
+ msgid "Database routing enabled"
+@@ -4091,7 +4091,7 @@ msgstr "Slug"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/database_routing/index.tsx
+ msgid "Metabase will route queries to this database when the user attribute value matches this slug."
+-msgstr "O Metabase vai rotear as consultas para este banco de dados quando o valor do atributo do usuário corresponder a este slug."
++msgstr "O Analytics vai rotear as consultas para este banco de dados quando o valor do atributo do usuário corresponder a este slug."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/database_routing/index.tsx
+ msgid "For example, pro-users"
+@@ -4720,7 +4720,7 @@ msgstr "Ativar incorporação do app completo"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/embedding/components/InteractiveEmbeddingSettingsCard.tsx
+ msgid "Embed the full Metabase application or individual pages into your app. Best for complex, BI-focused scenarios where you want to embed all of Metabase's capabilities into your app. If you are looking for stability of UX, flexibility or control, or don't have a complex use case that requires a full-blown BI solution, we recommend using Modular embedding instead."
+-msgstr "Incorpore o aplicativo completo do Metabase ou páginas individuais no seu app. Melhor para cenários complexos, focados em BI, em que você quer incorporar todas as capacidades do Metabase no seu app. Se você busca estabilidade de UX, flexibilidade ou controle, ou não tem um caso de uso complexo que exija uma solução de BI completa, recomendamos usar Incorporação modular."
++msgstr "Incorpore o aplicativo completo do Analytics ou páginas individuais no seu app. Melhor para cenários complexos, focados em BI, em que você quer incorporar todas as capacidades do Analytics no seu app. Se você busca estabilidade de UX, flexibilidade ou controle, ou não tem um caso de uso complexo que exija uma solução de BI completa, recomendamos usar Incorporação modular."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/embedding/components/InteractiveEmbeddingSettingsCard.tsx
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSdkSettings/EmbeddingSdkSettings.tsx
+@@ -4804,7 +4804,7 @@ msgstr "Para trabalhar com planilhas, você pode adicionar armazenamento à sua
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveSyncStatus.tsx
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/utils.tsx
+ msgid "Please check that the folder is shared with the Metabase Service Account."
+-msgstr "Verifique se a pasta é compartilhada com a conta de serviço da Metabase."
++msgstr "Verifique se a pasta é compartilhada com a conta de serviço da Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveAddDataPanel.tsx
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveConnectionModal.tsx
+@@ -4817,7 +4817,7 @@ msgstr "Adicionar novo"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveAddDataPanel.tsx
+ msgid "Metabase Storage is full. Add more storage to continue syncing."
+-msgstr "O Metabase Storage está cheio. Adicione mais armazenamento para continuar sincronizando."
++msgstr "O Analytics Storage está cheio. Adicione mais armazenamento para continuar sincronizando."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveAddDataPanel.tsx
+ msgid "Add storage"
+@@ -4881,7 +4881,7 @@ msgstr "Para adicionar uma nova pasta do Google Drive, a existente precisa ser d
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveConnectionModal.strings.ts
+ msgid "Only one folder can be synced with Metabase at a time. Your tables and Google Sheets will remain in place."
+-msgstr "Apenas uma pasta pode ser sincronizada com a Metabase por vez. Suas tabelas e o Planilhas Google permanecerão no mesmo lugar."
++msgstr "Apenas uma pasta pode ser sincronizada com a Analytics por vez. Suas tabelas e o Planilhas Google permanecerão no mesmo lugar."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/GdriveConnectionModal.strings.ts
+ msgid "Your existing tables and Google Sheets will remain in place but they will no longer be updated automatically."
+@@ -5010,7 +5010,7 @@ msgstr "Não foi possível carregar o arquivo, o armazenamento está cheio"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/PausedModal.tsx
+ msgid "Add more storage to your Metabase or connect a database to store the uploaded files."
+-msgstr "Adicione mais armazenamento ao seu Metabase ou conecte um banco de dados para armazenar os arquivos enviados."
++msgstr "Adicione mais armazenamento ao seu Analytics ou conecte um banco de dados para armazenar os arquivos enviados."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/google_drive/PausedModal.tsx
+ msgid "Please contact your admin to add more storage."
+@@ -5162,7 +5162,7 @@ msgstr "Não foi possível conectar a este provedor de IA."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/metabot/components/MetabotAdmin/MetabaseAIProviderSetup.tsx
+ msgid "The simplest way to get started with AI in Metabase. We pick a benchmarked, cost effective model for you, and billing is managed through your Metabase account."
+-msgstr "A forma mais simples de começar a usar IA no Metabase. Escolhemos para você um modelo benchmarkado e com bom custo-benefício, e a cobrança é gerenciada pela sua conta do Metabase."
++msgstr "A forma mais simples de começar a usar IA no Analytics. Escolhemos para você um modelo benchmarkado e com bom custo-benefício, e a cobrança é gerenciada pela sua conta do Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/metabot/components/MetabotAdmin/MetabaseAIProviderSetup.tsx
+ msgid "You're on legacy tiered AI pricing today. On your next billing cycle, you'll switch to metered AI pricing."
+@@ -5175,7 +5175,7 @@ msgstr "Peça a um usuário Admin para ativar isso para você."
+ #: enterprise/frontend/src/metabase-enterprise/metabot/components/MetabotAdmin/MetabaseAIProviderSetup.tsx
+ #, javascript-format
+ msgid "I agree with the Metabase AI Service {0}"
+-msgstr "Concordo com os {0} do Serviço de IA do Metabase"
++msgstr "Concordo com os {0} do Serviço de IA do Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/metabot/components/MetabotAdmin/MetabaseAIProviderSetup.tsx
+ msgid "Terms of Service"
+@@ -6155,7 +6155,7 @@ msgstr "Veja como sua equipe está usando IA"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/monitor/ai-auditing/metabot-analytics/components/MetabotAnalyticsUpsellPage/MetabotAnalyticsUpsellPage.tsx
+ msgid "Track trends of token use, conversations, and messages, and understand what your team is doing with AI in Metabase."
+-msgstr "Acompanhe tendências de uso de tokens, conversas e mensagens, e entenda o que sua equipe está fazendo com IA no Metabase."
++msgstr "Acompanhe tendências de uso de tokens, conversas e mensagens, e entenda o que sua equipe está fazendo com IA no Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/monitor/dependency-diagnostics/components/DiagnosticsEmptyState/DiagnosticsEmptyState.tsx
+ #: frontend/src/metabase/monitor/components/MonitorEmptyState/MonitorEmptyState.tsx
+@@ -7888,7 +7888,7 @@ msgstr "Mostrar dispensados"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/AdvisoryList/AdvisoryList.tsx
+ msgid "No known security issues that impact your Metabase version"
+-msgstr "Nenhum problema de segurança conhecido que afete sua versão do Metabase"
++msgstr "Nenhum problema de segurança conhecido que afete sua versão do Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/AdvisoryList/AdvisoryList.tsx
+ msgid "Issues impacting your instance"
+@@ -7992,7 +7992,7 @@ msgstr "Central de segurança"
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/SecurityCenterBanner/SecurityCenterBanner.tsx
+ #, javascript-format
+ msgid "Please configure notification channels in the {0} so that you get notified about security vulnerabilities in your Metabase instance"
+-msgstr "Configure os canais de notificação no {0} para que você seja notificado(a) sobre vulnerabilidades de segurança na sua instância do Metabase"
++msgstr "Configure os canais de notificação no {0} para que você seja notificado(a) sobre vulnerabilidades de segurança na sua instância do Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/SecurityCenterNavItem/SecurityCenterMobileNavItem.tsx
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/SecurityCenterNavItem/SecurityCenterNavItem.tsx
+@@ -8041,7 +8041,7 @@ msgstr "Fique seguro com alertas de segurança"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/SecurityCenterPromoCard/SecurityCenterPromoCard.tsx
+ msgid "Metabase's Security Center can send you alerts via email or Slack immediately about security vulnerabilities."
+-msgstr "A Central de Segurança do Metabase pode enviar alertas imediatamente por e-mail ou Slack sobre vulnerabilidades de segurança."
++msgstr "A Central de Segurança do Analytics pode enviar alertas imediatamente por e-mail ou Slack sobre vulnerabilidades de segurança."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/security_center/components/SecurityCenterPromoCard/SecurityCenterPromoCard.tsx
+ msgid "Set up security alerts"
+@@ -8088,7 +8088,7 @@ msgstr "Este token não parece ser válido. Verifique-o novamente e entre em con
+ 
+ #: enterprise/frontend/src/metabase-enterprise/settings/hooks/use-license.ts
+ msgid "We're having trouble validating your token. Please double-check that your instance can connect to Metabase's servers."
+-msgstr "Estamos tendo problemas para validar seu token. Verifique novamente se sua instância pode se conectar aos servidores da Metabase."
++msgstr "Estamos tendo problemas para validar seu token. Verifique novamente se sua instância pode se conectar aos servidores da Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/sharing/components/MutableParametersSection.tsx
+ msgid "Set filter values for when this gets sent"
+@@ -8096,7 +8096,7 @@ msgstr "Defina valores de filtro para quando isso for enviado"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/smtp-override/components/CloudSMTPConnectionCard.tsx
+ msgid "Managed by Metabase"
+-msgstr "Gerenciado pelo Metabase"
++msgstr "Gerenciado pelo Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/smtp-override/components/CloudSMTPConnectionCard.tsx
+ msgid "Emails come from Metabase Cloud email server"
+@@ -8134,7 +8134,7 @@ msgstr "Nova pasta"
+ #: enterprise/frontend/src/metabase-enterprise/storage/StoragePurchaseModal.tsx
+ #: frontend/src/metabase/common/components/upsells/StoragePurchaseModal/StoragePurchaseButton.tsx
+ msgid "Add Metabase Storage"
+-msgstr "Adicionar Metabase Storage"
++msgstr "Adicionar Analytics Storage"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/storage/StoragePurchaseModal.tsx
+ msgid "Get secure, fully managed data storage where you can upload your CSVs and sync data from Google Sheets."
+@@ -8144,11 +8144,11 @@ msgstr "Obtenha um armazenamento de dados seguro e totalmente gerenciado, onde v
+ #, javascript-format
+ msgctxt "{0} and {2} are numbers of database rows, {1} is a monthly price, e.g. '$40'"
+ msgid "By clicking \"Add Metabase Storage,\" you agree to be charged in accordance with our terms of service. You will not be charged until you reach {0} stored rows, after which it's {1}/mo. for each additional {2} rows."
+-msgstr "Ao clicar em \"Add Metabase Storage,\" você concorda em ser cobrado de acordo com nossos termos de serviço. Você não será cobrado até atingir {0} linhas armazenadas; depois disso, será {1}/mês para cada {2} linhas adicionais."
++msgstr "Ao clicar em \"Add Analytics Storage,\" você concorda em ser cobrado de acordo com nossos termos de serviço. Você não será cobrado até atingir {0} linhas armazenadas; depois disso, será {1}/mês para cada {2} linhas adicionais."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/storage/use-purchase-storage-add-on.ts
+ msgid "Metabase Storage is ready"
+-msgstr "Metabase Storage está pronto"
++msgstr "Analytics Storage está pronto"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/storage/use-purchase-storage-add-on.ts
+ #: enterprise/frontend/src/metabase-enterprise/transforms-python/upsells/PythonTransformsUpsellModal/PurchaseAdvancedTransforms.tsx
+@@ -8231,7 +8231,7 @@ msgstr "Conceder acesso?"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/support/components/SupportSettingsSection/GrantAccessModal.tsx
+ msgid "You are about to allow a Metabase team member to access your instance."
+-msgstr "Você está prestes a permitir que um membro da equipe do Metabase acesse sua instância."
++msgstr "Você está prestes a permitir que um membro da equipe do Analytics acesse sua instância."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/support/components/SupportSettingsSection/GrantAccessModal.tsx
+ msgid "The Success Engineer will have full admin access until the grant expires or is revoked."
+@@ -8276,7 +8276,7 @@ msgstr "Ajuda"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/support/components/SupportSettingsSection/SupportSettingsSection.tsx
+ msgid "Let a Metabase Success Engineer log in to your instance with a troubleshooting account to help resolve problems for you."
+-msgstr "Permita que um Metabase Success Engineer faça login na sua instância com uma conta de troubleshooting para ajudar a resolver problemas."
++msgstr "Permita que um Analytics Success Engineer faça login na sua instância com uma conta de troubleshooting para ajudar a resolver problemas."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/support/components/SupportSettingsSection/SupportSettingsSection.tsx
+ msgid "Access always auto expires after the period you select."
+@@ -8600,7 +8600,7 @@ msgstr "Tenant único"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/tenants/EditUserStrategyModal/EditUserStrategyModal.tsx
+ msgid "All users exist in the same world and are managed via Metabase groups. Ideal for internal company analytics, proof of concept, or simple embedding setups."
+-msgstr "Todos os usuários existem no mesmo ambiente e são gerenciados via grupos do Metabase. Ideal para analytics interna da empresa, prova de conceito ou setups simples de incorporação."
++msgstr "Todos os usuários existem no mesmo ambiente e são gerenciados via grupos do Analytics. Ideal para analytics interna da empresa, prova de conceito ou setups simples de incorporação."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/tenants/EditUserStrategyModal/EditUserStrategyModal.tsx
+ msgid "Pick a user strategy"
+@@ -10089,7 +10089,7 @@ msgstr "Gerar token novamente?"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/user_provisioning/components/UserProvisioningModals.tsx
+ msgid "This will delete the existing token. You'll need to update your identity provider with the new token, otherwise people won't be able to log in to your Metabase."
+-msgstr "Isso excluirá o token existente. Você precisará atualizar seu provedor de identidade com o novo token, caso contrário, as pessoas não conseguirão fazer login na sua Metabase."
++msgstr "Isso excluirá o token existente. Você precisará atualizar seu provedor de identidade com o novo token, caso contrário, as pessoas não conseguirão fazer login na sua Analytics."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/user_provisioning/components/UserProvisioningModals.tsx
+ msgid "Regenerate now"
+@@ -10242,7 +10242,7 @@ msgstr "esta página"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/HelpLinkSettings/HelpLinkSettings.tsx
+ msgid "Link to Metabase help"
+-msgstr "Link para a ajuda da Metabase"
++msgstr "Link para a ajuda da Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/HelpLinkSettings/HelpLinkSettings.tsx
+ msgid "Hide it"
+@@ -10325,7 +10325,7 @@ msgstr "Insira uma URL relativa como /dashboard/1 ou /collection/2."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/MetabaseLinksToggleDescription.tsx
+ msgid "This affects all links in the product experience (outside of the admin panel) that point to Metabase.com URLs."
+-msgstr "Isso afeta todos os links na experiência do produto (fora do painel de administração) que apontam para URLs do Metabase.com."
++msgstr "Isso afeta todos os links na experiência do produto (fora do painel de administração) que apontam para URLs do Analytics.com."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/MetabaseLinksToggleDescription.tsx
+ msgid "When hidden, your users will lose the ability to troubleshoot and learn how to use features such as the Query and SQL Editors, among others."
+@@ -10360,7 +10360,7 @@ msgstr "Paleta de cores"
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelBrandingSettingsPage.tsx
+ #: metabase/appearance/settings.clj
+ msgid "Choose the colors used in the user interface throughout Metabase and others specifically for the charts. You need to refresh your browser to see your changes take effect."
+-msgstr "Selecione as cores usadas na interface do usuário no Metabase e em outros aplicativos específicos para os gráficos. É preciso atualizar o navegador para que as alterações entrem em vigor."
++msgstr "Selecione as cores usadas na interface do usuário no Analytics e em outros aplicativos específicos para os gráficos. É preciso atualizar o navegador para que as alterações entrem em vigor."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelBrandingSettingsPage.tsx
+ msgid "Icons"
+@@ -10391,11 +10391,11 @@ msgstr "Mensagem de carregamento"
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ #: frontend/src/metabase/admin/settings/components/SettingsNav/SettingsNav.tsx
+ msgid "Conceal Metabase"
+-msgstr "Ocultar Metabase"
++msgstr "Ocultar Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Configure your instance to conceal references to Metabase and customize illustrations."
+-msgstr "Configure sua instância para ocultar referências ao Metabase e personalizar ilustrações."
++msgstr "Configure sua instância para ocultar referências ao Analytics e personalizar ilustrações."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Names"
+@@ -10411,19 +10411,19 @@ msgstr "Documentação e referências"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Show links and references to Metabase"
+-msgstr "Mostrar links e referências à Metabase"
++msgstr "Mostrar links e referências à Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Control the display of Metabase documentation and Metabase references in your instance."
+-msgstr "Controle a exibição da documentação da Metabase e das referências da Metabase em sua instância."
++msgstr "Controle a exibição da documentação da Analytics e das referências da Analytics em sua instância."
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Metabase illustrations"
+-msgstr "Ilustrações da Metabase"
++msgstr "Ilustrações da Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Customize each of the illustrations in Metabase"
+-msgstr "Personalize cada uma das ilustrações na Metabase"
++msgstr "Personalize cada uma das ilustrações na Analytics"
+ 
+ #: enterprise/frontend/src/metabase-enterprise/whitelabel/components/WhiteLabelConcealSettingsPage.tsx
+ msgid "Login and unsubscribe pages"
+@@ -11375,7 +11375,7 @@ msgid "Optional. The default is `\"ISO\"`.\n"
+ msgstr "Opcional. O padrão é `\"ISO\"`.\n"
+ "- ISO: A semana 1 começa na segunda-feira antes da primeira quinta-feira de janeiro.\n"
+ "- EUA: A semana 1 começa em 1º de janeiro. Todas as outras semanas começam no domingo.\n"
+-"- Instância: A semana 1 começa em 1º de janeiro. Todas as outras semanas começam no dia definido nas configurações de localização do Metabase."
++"- Instância: A semana 1 começa em 1º de janeiro. Todas as outras semanas começam no dia definido nas configurações de localização do Analytics."
+ 
+ #: frontend/src/metabase-lib/query/clauses/clauses.ts
+ msgid "Takes a datetime and returns an integer (`1`-`31`) with the number of the day of the month."
+@@ -12611,7 +12611,7 @@ msgstr "Servidor MCP"
+ #: frontend/src/metabase/admin/ai/McpAppsSettings.tsx
+ #, javascript-format
+ msgid "Allow MCP clients to connect to your Metabase instance. {0}"
+-msgstr "Permitir que clientes MCP se conectem à sua instância do Metabase. {0}"
++msgstr "Permitir que clientes MCP se conectem à sua instância do Analytics. {0}"
+ 
+ #: frontend/src/metabase/admin/ai/McpAppsSettings.tsx
+ msgid "Show inline charts in these MCP clients"
+@@ -12619,7 +12619,7 @@ msgstr "Mostrar gráficos inline nestes clientes MCP"
+ 
+ #: frontend/src/metabase/admin/ai/McpAppsSettings.tsx
+ msgid "Select which MCP clients can display inline charts generated by Metabase. Their sandbox domains will be automatically added to the CORS allowlist."
+-msgstr "Selecione quais clientes MCP podem exibir gráficos inline gerados pelo Metabase. Seus domínios de sandbox serão adicionados automaticamente à allowlist de CORS."
++msgstr "Selecione quais clientes MCP podem exibir gráficos inline gerados pelo Analytics. Seus domínios de sandbox serão adicionados automaticamente à allowlist de CORS."
+ 
+ #: frontend/src/metabase/admin/ai/McpAppsSettings.tsx
+ msgid "Allowed origins for custom MCP clients"
+@@ -12720,7 +12720,7 @@ msgstr "Ativar Metabot"
+ 
+ #: frontend/src/metabase/admin/ai/MetabotSettingsPanel.tsx
+ msgid "Metabot is Metabase's AI assistant. When enabled, Metabot will be available to help users create queries, analyze data, and answer questions about your data."
+-msgstr "Metabot é o assistente de IA do Metabase. Quando ativado, o Metabot estará disponível para ajudar os usuários a criar consultas, analisar dados e responder perguntas sobre seus dados."
++msgstr "Metabot é o assistente de IA do Analytics. Quando ativado, o Metabot estará disponível para ajudar os usuários a criar consultas, analisar dados e responder perguntas sobre seus dados."
+ 
+ #: frontend/src/metabase/admin/ai/MetabotSettingsPanel.tsx
+ msgid "Embedded Metabot is enabled"
+@@ -13003,7 +13003,7 @@ msgstr "Conexão e sincronização"
+ 
+ #: frontend/src/metabase/admin/databases/components/DatabaseConnectionInfoSection/DatabaseConnectionInfoSection.tsx
+ msgid "Manage details about the database connection and when Metabase ingests new data."
+-msgstr "Gerencie detalhes sobre a conexão do banco de dados e quando a Metabase ingere novos dados."
++msgstr "Gerencie detalhes sobre a conexão do banco de dados e quando a Analytics ingere novos dados."
+ 
+ #: frontend/src/metabase/admin/databases/components/DatabaseConnectionInfoSection/DatabaseConnectionInfoSection.tsx
+ #: frontend/src/metabase/status/components/DatabaseStatusSmall/DatabaseStatusSmall.tsx
+@@ -13145,7 +13145,7 @@ msgstr "Características do modelo"
+ 
+ #: frontend/src/metabase/admin/databases/components/DatabaseModelFeaturesSection/DatabaseModelFeaturesSection.tsx
+ msgid "Choose whether to enable features related to Metabase models. These will often require a write connection."
+-msgstr "Escolha se deseja habilitar recursos relacionados a modelos da Metabase. Eles geralmente exigirão uma conexão de gravação."
++msgstr "Escolha se deseja habilitar recursos relacionados a modelos da Analytics. Eles geralmente exigirão uma conexão de gravação."
+ 
+ #: frontend/src/metabase/admin/databases/components/DatabaseModelFeaturesSection/ModelActionsSection/ModelActionsSection.tsx
+ msgid "Model actions"
+@@ -13700,16 +13700,16 @@ msgstr "Adicionar membros"
+ #, javascript-format
+ msgid "All users belong to the {0} group and can't be removed from it. Setting permissions for this group is a great way to\n"
+ "make sure you know what new Metabase users will be able to see."
+-msgstr "Todos os usuários pertencem ao grupo {0} e não podem ser removidos dele. Definir permissões para este grupo é uma ótima maneira de garantir que você saiba o que os novos usuários do Metabase poderão ver."
++msgstr "Todos os usuários pertencem ao grupo {0} e não podem ser removidos dele. Definir permissões para este grupo é uma ótima maneira de garantir que você saiba o que os novos usuários do Analytics poderão ver."
+ 
+ #: frontend/src/metabase/admin/people/components/GroupDetail.tsx
+ msgid "This is a special group whose members can see everything in the Metabase instance, and who can access and make changes to the\n"
+ "settings in the Admin Panel, including changing permissions! So, add people to this group with care."
+-msgstr "Este é um grupo especial cujos membros podem ver tudo na instância do Metabase e acessar e fazer alterações nas configurações no Painel de Administrador, incluindo alterar permissões! Portanto, adicione pessoas a este grupo com cuidado."
++msgstr "Este é um grupo especial cujos membros podem ver tudo na instância do Analytics e acessar e fazer alterações nas configurações no Painel de Administrador, incluindo alterar permissões! Portanto, adicione pessoas a este grupo com cuidado."
+ 
+ #: frontend/src/metabase/admin/people/components/GroupDetail.tsx
+ msgid "To make sure you don't get locked out of Metabase, there always has to be at least one user in this group."
+-msgstr "Para garantir que não fique sem acesso ao Metabase, você deve sempre ter ao menos um usuário neste grupo."
++msgstr "Para garantir que não fique sem acesso ao Analytics, você deve sempre ter ao menos um usuário neste grupo."
+ 
+ #: frontend/src/metabase/admin/people/components/GroupMembersTable/GroupMembersTable.tsx
+ msgid "Add members to get started."
+@@ -14187,11 +14187,11 @@ msgstr "Permissões de aplicativos"
+ #: frontend/src/metabase/admin/permissions/components/CollectionPermissionsHelp/CollectionPermissionsHelp.tsx
+ #: frontend/src/metabase/admin/permissions/components/DataPermissionsHelp/DataPermissionsHelp.tsx
+ msgid "People can be members of multiple groups, and Metabase grants them the most permissive level of access across all of a person's groups."
+-msgstr "As pessoas podem ser membros de vários grupos e a Metabase concede a elas o nível de acesso mais permissivo de todos os seus grupos."
++msgstr "As pessoas podem ser membros de vários grupos e a Analytics concede a elas o nível de acesso mais permissivo de todos os seus grupos."
+ 
+ #: frontend/src/metabase/admin/permissions/components/ApplicationPermissionsHelp/ApplicationPermissionsHelp.tsx
+ msgid "Application settings are useful for granting groups access to some, but not all, of Metabase’s administrative features."
+-msgstr "As configurações de aplicativo são úteis para conceder aos grupos acesso a alguns, mas não a todos, os recursos administrativos do Metabase."
++msgstr "As configurações de aplicativo são úteis para conceder aos grupos acesso a alguns, mas não a todos, os recursos administrativos do Analytics."
+ 
+ #: frontend/src/metabase/admin/permissions/components/ApplicationPermissionsHelp/ApplicationPermissionsHelp.tsx
+ #, javascript-format
+@@ -14445,7 +14445,7 @@ msgstr "Suas permissões de dados podem parecer diferentes, mas o acesso não mu
+ #: frontend/src/metabase/admin/permissions/components/LegacyPermissionsModal/LegacyPermissionsModal.tsx
+ #, javascript-format
+ msgid "In Metabase 50, we split our data permissions into two new settings: {0} and {1}. Having separate settings for what people can view and what they can query makes data permissions more expressive and easier to reason about."
+-msgstr "No Metabase 50, nós separamos as permissões de dados em duas configurações: {0} e {1}. Permissões de visualização e de criação de consultas são mais expressivas e simples de entender."
++msgstr "No Analytics 50, nós separamos as permissões de dados em duas configurações: {0} e {1}. Permissões de visualização e de criação de consultas são mais expressivas e simples de entender."
+ 
+ #: frontend/src/metabase/admin/permissions/components/LegacyPermissionsModal/LegacyPermissionsModal.tsx
+ #: frontend/src/metabase/admin/permissions/selectors/data-permissions/permission-editor.tsx
+@@ -14510,7 +14510,7 @@ msgstr "Ler mais"
+ 
+ #: frontend/src/metabase/admin/permissions/components/PermissionsEditor/PermissionsEditorLegacyWarning.tsx
+ msgid "In a future release, if a group’s View data access for a database (or any of its schemas or tables) is still set to “No self-service (deprecated)”, Metabase will automatically change that group’s View data access for the entire database to “Blocked”. We’ll be defaulting to “Blocked”, the least permissive View data access, to prevent any unintended access to data."
+-msgstr "Em uma versão futura, se o acesso a dados de visualização de um grupo para um banco de dados (ou qualquer um de seus esquemas ou tabelas) ainda estiver definido como \"Sem autoatendimento (obsoleto)\", o Metabase alterará automaticamente o acesso a dados de visualização desse grupo para todo o banco de dados para \"Bloqueado\". Usaremos como padrão \"Bloqueado\", o acesso a dados de visualização menos permissivo, para evitar qualquer acesso não intencional aos dados."
++msgstr "Em uma versão futura, se o acesso a dados de visualização de um grupo para um banco de dados (ou qualquer um de seus esquemas ou tabelas) ainda estiver definido como \"Sem autoatendimento (obsoleto)\", o Analytics alterará automaticamente o acesso a dados de visualização desse grupo para todo o banco de dados para \"Bloqueado\". Usaremos como padrão \"Bloqueado\", o acesso a dados de visualização menos permissivo, para evitar qualquer acesso não intencional aos dados."
+ 
+ #: frontend/src/metabase/admin/permissions/components/PermissionsEditor/PermissionsEditorLegacyWarning.tsx
+ msgid "Need help? See our docs."
+@@ -14558,7 +14558,7 @@ msgstr "Coleções"
+ #: frontend/src/metabase/admin/permissions/constants/messages.ts
+ #: frontend/src/metabase/plugins/oss/collections.ts
+ msgid "Administrators always have the highest level of access to everything in Metabase."
+-msgstr "Os administradores sempre têm o nível mais alto de acesso a tudo na Metabase."
++msgstr "Os administradores sempre têm o nível mais alto de acesso a tudo na Analytics."
+ 
+ #: frontend/src/metabase/admin/permissions/constants/messages.ts
+ msgid "Data Analysts always have full access to edit table metadata."
+@@ -14620,7 +14620,7 @@ msgstr "O grupo \"{0}\" pode ter acesso a um conjunto diferente de {1} do que es
+ 
+ #: frontend/src/metabase/admin/permissions/selectors/confirmations.tsx
+ msgid "In a future release, if a group's View data access for a database (or any of its schemas or tables) is still set to No self-service (Deprecated), Metabase will automatically change that group's View data access for the entire database to Blocked. We'll be defaulting to Blocked, the least permissive View data access, to prevent any unintended access to data."
+-msgstr "Em uma versão futura, se o acesso Visualizar dados de um grupo para um banco de dados (ou qualquer um de seus esquemas ou tabelas) ainda estiver definido como Sem autoatendimento (obsoleto), a Metabase mudará automaticamente o acesso Visualizar dados desse grupo para todo o banco de dados para Bloqueado. O padrão será Bloqueado, o acesso Visualizar dados menos permissivo, para evitar qualquer acesso não intencional aos dados."
++msgstr "Em uma versão futura, se o acesso Visualizar dados de um grupo para um banco de dados (ou qualquer um de seus esquemas ou tabelas) ainda estiver definido como Sem autoatendimento (obsoleto), a Analytics mudará automaticamente o acesso Visualizar dados desse grupo para todo o banco de dados para Bloqueado. O padrão será Bloqueado, o acesso Visualizar dados menos permissivo, para evitar qualquer acesso não intencional aos dados."
+ 
+ #: frontend/src/metabase/admin/permissions/selectors/confirmations.tsx
+ msgid "Groups with a database, schema, or table set to Blocked can't view native queries on this database."
+@@ -14699,11 +14699,11 @@ msgstr "banco de dados"
+ 
+ #: frontend/src/metabase/admin/permissions/selectors/confirmations.tsx
+ msgid "This schema contains one or more tables with “Blocked” permissions, which prevents access to the query builder. To grant Create query permissions for this schema, Metabase will also change the View data permissions on this schema to “Can view”."
+-msgstr "Este esquema contém uma ou mais tabelas com permissões \"Bloqueado\", o que impede o acesso ao criador de consultas. Para conceder permissões de Criar consulta para este esquema, a Metabase também alterará as permissões de Visualizar dados neste esquema para \"Pode visualizar\"."
++msgstr "Este esquema contém uma ou mais tabelas com permissões \"Bloqueado\", o que impede o acesso ao criador de consultas. Para conceder permissões de Criar consulta para este esquema, a Analytics também alterará as permissões de Visualizar dados neste esquema para \"Pode visualizar\"."
+ 
+ #: frontend/src/metabase/admin/permissions/selectors/confirmations.tsx
+ msgid "This database contains one or more schemas and tables with “Blocked” permissions, which prevents access to the query builder. To grant Create query permissions for this database, Metabase will also change the View data permissions on this database to “Can view”."
+-msgstr "Este banco de dados contém um ou mais esquemas e tabelas com permissões \"Bloqueado\", o que impede o acesso ao criador de consultas. Para conceder permissões de Criar consulta para este banco de dados, a Metabase também alterará as permissões de Visualizar dados neste banco de dados para \"Pode visualizar\"."
++msgstr "Este banco de dados contém um ou mais esquemas e tabelas com permissões \"Bloqueado\", o que impede o acesso ao criador de consultas. Para conceder permissões de Criar consulta para este banco de dados, a Analytics também alterará as permissões de Visualizar dados neste banco de dados para \"Pode visualizar\"."
+ 
+ #: frontend/src/metabase/admin/permissions/selectors/confirmations.tsx
+ #, javascript-format
+@@ -14871,12 +14871,12 @@ msgstr "Entre com o Google"
+ #: frontend/src/metabase/admin/settings/auth/components/GoogleAuthForm/GoogleAuthForm.tsx
+ #: frontend/src/metabase/admin/settings/auth/containers/GoogleAuthCard/GoogleAuthCard.tsx
+ msgid "Allows users with existing Metabase accounts to login with a Google account that matches their email address in addition to their Metabase username and password."
+-msgstr "Permite que usuários com contas existentes da Metabase façam login com uma conta do Google que corresponde ao seu endereço de e-mail além do seu nome de usuário e senha da Metabase."
++msgstr "Permite que usuários com contas existentes da Analytics façam login com uma conta do Google que corresponde ao seu endereço de e-mail além do seu nome de usuário e senha da Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/auth/components/GoogleAuthForm/GoogleAuthForm.tsx
+ #, javascript-format
+ msgid "To allow users to sign in with Google you'll need to give Metabase a Google Developers console application client ID. It only takes a few steps and instructions on how to create a key can be found {0}."
+-msgstr "Para permitir que os usuários façam login no Google, é necessário fornecer à Metabase um ID de cliente de aplicativo de console do Google Developers. São necessários apenas alguns passos e as instruções sobre como criar uma chave podem ser encontradas em {0}."
++msgstr "Para permitir que os usuários façam login no Google, é necessário fornecer à Analytics um ID de cliente de aplicativo de console do Google Developers. São necessários apenas alguns passos e as instruções sobre como criar uma chave podem ser encontradas em {0}."
+ 
+ #: frontend/src/metabase/admin/settings/auth/components/GoogleAuthForm/GoogleAuthForm.tsx
+ msgid "here"
+@@ -14906,7 +14906,7 @@ msgstr "LDAP"
+ 
+ #: frontend/src/metabase/admin/settings/auth/containers/LdapAuthCard/LdapAuthCard.tsx
+ msgid "Allows users within your LDAP directory to log in to Metabase with their LDAP credentials, and allows automatic mapping of LDAP groups to Metabase groups."
+-msgstr "Permite que usuários dentro do seu diretório LDAP efetuem login no Metabase com suas credenciais LDAP e permite o mapeamento automático de grupos LDAP para grupos do Metabase."
++msgstr "Permite que usuários dentro do seu diretório LDAP efetuem login no Analytics com suas credenciais LDAP e permite o mapeamento automático de grupos LDAP para grupos do Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/components/ApiKeys/CreateApiKeyModal.tsx
+ msgid "Create a new API key"
+@@ -14934,7 +14934,7 @@ msgstr "A chave terá as mesmas permissões que o grupo."
+ 
+ #: frontend/src/metabase/admin/settings/components/ApiKeys/CreateApiKeyModal.tsx
+ msgid "We don't version the Metabase API. We rarely change API endpoints, and almost never remove them, but if you write code that relies on the API, there's a chance you might have to update your code in the future."
+-msgstr "Nós não fazemos versões da API da Metabase. Raramente alteramos os endpoints da API e quase nunca os removemos, mas se você escrever um código que dependa da API, é possível que tenha que atualizá-lo no futuro."
++msgstr "Nós não fazemos versões da API da Analytics. Raramente alteramos os endpoints da API e quase nunca os removemos, mas se você escrever um código que dependa da API, é possível que tenha que atualizá-lo no futuro."
+ 
+ #: frontend/src/metabase/admin/settings/components/ApiKeys/DeleteApiKeyModal.tsx
+ msgid "Delete API key"
+@@ -14954,7 +14954,7 @@ msgstr "Gerar novamente a chave da API"
+ 
+ #: frontend/src/metabase/admin/settings/components/ApiKeys/EditApiKeyModal.tsx
+ msgid "Metabase will replace the existing API key with a new key. You won't be able to recover the old key."
+-msgstr "O Metabase substituirá a chave de API existente por uma nova chave. Você não poderá recuperar a chave antiga."
++msgstr "O Analytics substituirá a chave de API existente por uma nova chave. Você não poderá recuperar a chave antiga."
+ 
+ #: frontend/src/metabase/admin/settings/components/ApiKeys/EditApiKeyModal.tsx
+ msgid "No, don't regenerate"
+@@ -15054,7 +15054,7 @@ msgstr "Para completar a migração, configure sua conta na Metabase Store"
+ 
+ #: frontend/src/metabase/admin/settings/components/CloudPanel/MigrationInProgress.tsx
+ msgid "While we snapshot your Metabase data, people will be able to view questions and dashboards, but they won't be able to edit or create anything new. It should only take up to 30 minutes"
+-msgstr "Enquanto geramos um snapshot dos seus dados do Metabase, as pessoas poderão ver perguntas e dashboards, mas não poderão editar nem criar nada novo. Deve levar no máximo 30 minutos"
++msgstr "Enquanto geramos um snapshot dos seus dados do Analytics, as pessoas poderão ver perguntas e dashboards, mas não poderão editar nem criar nada novo. Deve levar no máximo 30 minutos"
+ 
+ #: frontend/src/metabase/admin/settings/components/CloudPanel/MigrationInProgress.tsx
+ msgid "Cancel migration"
+@@ -15080,7 +15080,7 @@ msgstr "Comece a usar o Metabase Cloud"
+ #: frontend/src/metabase/admin/settings/components/CloudPanel/MigrationStart.tsx
+ msgid "Just a heads up: your Metabase will be read-only for up to 30\n"
+ "minutes while we prep it for migration."
+-msgstr "Atenção: seu Metabase ficará somente para leitura por até 30\n"
++msgstr "Atenção: seu Analytics ficará somente para leitura por até 30\n"
+ "minutos enquanto o preparamos para a migração."
+ 
+ #: frontend/src/metabase/admin/settings/components/CloudPanel/MigrationStart.tsx
+@@ -15161,12 +15161,12 @@ msgstr "Primeiro, um pouco de juridiquês"
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingLegaleseModal/EmbeddingLegaleseModal.tsx
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/EnableModularEmbeddingSection.tsx
+ msgid "Sharing Metabase accounts is a security risk. Even if you filter data on the client side, each user could use their token to view any data visible to that shared user account."
+-msgstr "Compartilhar contas da Metabase é um risco de segurança. Mesmo se você filtrar dados no lado do cliente, cada usuário pode usar seu token para visualizar quaisquer dados visíveis para essa conta de usuário compartilhada."
++msgstr "Compartilhar contas da Analytics é um risco de segurança. Mesmo se você filtrar dados no lado do cliente, cada usuário pode usar seu token para visualizar quaisquer dados visíveis para essa conta de usuário compartilhada."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingLegaleseModal/EmbeddingLegaleseModal.tsx
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/EnableModularEmbeddingSection.tsx
+ msgid "That, and we consider shared accounts to be unfair usage. Fair usage involves giving each end-user of the embedded analytics their own Metabase account."
+-msgstr "Além disso, consideramos contas compartilhadas como uso injusto. O uso justo envolve dar a cada usuário final das análises incorporadas sua própria conta do Metabase."
++msgstr "Além disso, consideramos contas compartilhadas como uso injusto. O uso justo envolve dar a cada usuário final das análises incorporadas sua própria conta do Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingLegaleseModal/EmbeddingLegaleseModal.tsx
+ msgid "Decline and go back"
+@@ -15174,12 +15174,12 @@ msgstr "Recusar e voltar"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingLegaleseModal/EmbeddingLegaleseModal.tsx
+ msgid "When using the Embedded analytics SDK for React, each end user should have their own Metabase account."
+-msgstr "Ao usar o SDK de análise incorporado para React, cada usuário final deve ter sua própria conta Metabase."
++msgstr "Ao usar o SDK de análise incorporado para React, cada usuário final deve ter sua própria conta Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingLegaleseModal/EmbeddingLegaleseModal.tsx
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/EnableModularEmbeddingSection.tsx
+ msgid "When using modular embedding, each end user must have their own Metabase account."
+-msgstr "Ao usar incorporação modular, cada usuário final deve ter sua própria conta do Metabase."
++msgstr "Ao usar incorporação modular, cada usuário final deve ter sua própria conta do Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSdkSettings/EmbeddingSdkSettings.tsx
+ msgid "implement JWT or SAML SSO"
+@@ -15203,7 +15203,7 @@ msgstr "Ativar SDK de incorporação modular"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSdkSettings/EmbeddingSdkSettings.tsx
+ msgid "Embed the full power of Metabase into your application to build a custom analytics experience and programmatically manage dashboards and data."
+-msgstr "Incorpore todo o poder do Metabase no seu aplicativo para criar uma experiência de analytics personalizada e gerenciar dashboards e dados programaticamente."
++msgstr "Incorpore todo o poder do Analytics no seu aplicativo para criar uma experiência de analytics personalizada e gerenciar dashboards e dados programaticamente."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSdkSettings/EmbeddingSdkSettings.tsx
+ msgid "Quick start"
+@@ -15280,7 +15280,7 @@ msgstr "Lax (padrão)"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "Allows Metabase session cookies to be shared on the same domain. Used for production instances on the same domain."
+-msgstr "Permite que os cookies de sessão do Metabase sejam compartilhados no mesmo domínio. Usado para instâncias de produção no mesmo domínio."
++msgstr "Permite que os cookies de sessão do Analytics sejam compartilhados no mesmo domínio. Usado para instâncias de produção no mesmo domínio."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "Strict (not recommended)"
+@@ -15288,7 +15288,7 @@ msgstr "Estrito (não recomendado)"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "Does not allow Metabase session cookies to be shared with embedded instances. Use this if you do not want to enable session sharing with embedding."
+-msgstr "Não permite que os cookies de sessão do Metabase sejam compartilhados com instâncias incorporadas. Use isto se você não quiser habilitar o compartilhamento de sessão com a incorporação."
++msgstr "Não permite que os cookies de sessão do Analytics sejam compartilhados com instâncias incorporadas. Use isto se você não quiser habilitar o compartilhamento de sessão com a incorporação."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "None (requires HTTPS)"
+@@ -15296,7 +15296,7 @@ msgstr "Nenhum (requer HTTPS)"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "Use \"None\" when your app and Metabase are hosted on different domains. Incompatible with Safari and iOS-based browsers."
+-msgstr "Use \"Nenhum\" quando seu app e o Metabase estiverem hospedados em domínios diferentes. Incompatível com Safari e navegadores baseados em iOS."
++msgstr "Use \"Nenhum\" quando seu app e o Analytics estiverem hospedados em domínios diferentes. Incompatível com Safari e navegadores baseados em iOS."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSecuritySettings/SameSiteSelectWidget.tsx
+ msgid "SameSite cookie setting"
+@@ -15312,7 +15312,7 @@ msgstr "Métodos de incorporação"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSettings/EmbeddingSettings.tsx
+ msgid "The simplest way to embed Metabase. Embed dashboards, questions, the query builder, natural language querying with AI, and more in your app with components. Built on the SDK with per-component controls and theming."
+-msgstr "A forma mais simples de incorporar o Metabase. Incorpore dashboards, perguntas, o construtor de consultas, consultas em linguagem natural com IA e mais no seu app com componentes. Criado sobre o SDK, com controles por componente e temas."
++msgstr "A forma mais simples de incorporar o Analytics. Incorpore dashboards, perguntas, o construtor de consultas, consultas em linguagem natural com IA e mais no seu app com componentes. Criado sobre o SDK, com controles por componente e temas."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSettings/EmbeddingSettings.tsx
+ msgid "Version pinning"
+@@ -15320,7 +15320,7 @@ msgstr "Fixação de versão"
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSettings/EmbeddingSettings.tsx
+ msgid "Metabase Cloud instances are automatically upgraded to new releases. SDK packages are strictly compatible with specific version of Metabase. You can request to pin your Metabase to a major version and upgrade your Metabase and SDK dependency in a coordinated fashion."
+-msgstr "As instâncias do Metabase Cloud são atualizadas automaticamente para novas versões. Os pacotes do SDK são estritamente compatíveis com versões específicas do Metabase. Você pode solicitar a fixação do seu Metabase em uma versão principal e atualizar a dependência do Metabase e do SDK de forma coordenada."
++msgstr "As instâncias do Metabase Cloud são atualizadas automaticamente para novas versões. Os pacotes do SDK são estritamente compatíveis com versões específicas do Analytics. Você pode solicitar a fixação do seu Analytics em uma versão principal e atualizar a dependência do Analytics e do SDK de forma coordenada."
+ 
+ #: frontend/src/metabase/admin/settings/components/EmbeddingSettings/EmbeddingSettings/EmbeddingSettings.tsx
+ msgid "Request version pinning"
+@@ -15426,7 +15426,7 @@ msgstr "Base de pesquisa de grupo"
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsLicense/SettingsLicense.tsx
+ msgid "Metabase is open source and will be free forever – but by upgrading you can have priority support, more tools to help you share your insights with your teams and powerful options to help you create seamless, interactive data experiences for your customers."
+-msgstr "O Metabase é de código aberto e será gratuito para sempre, mas, ao fazer o upgrade, você poderá ter suporte prioritário, mais ferramentas para ajudá-lo a compartilhar seus insights com suas equipes e opções avançadas para ajudá-lo a criar experiências de dados interativas e integradas para seus clientes."
++msgstr "O Analytics é de código aberto e será gratuito para sempre, mas, ao fazer o upgrade, você poderá ter suporte prioritário, mais ferramentas para ajudá-lo a compartilhar seus insights com suas equipes e opções avançadas para ajudá-lo a criar experiências de dados interativas e integradas para seus clientes."
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsLicense/SettingsLicense.tsx
+ msgid "Want to know more?"
+@@ -15593,11 +15593,11 @@ msgstr "Visualizações Personalizadas"
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ #, javascript-format
+ msgid "Restrict the browser's Content Security Policy so images can only load from this Metabase instance or the domains you list below. Required to enable Custom Visualizations. {0}"
+-msgstr "Restringir a Content Security Policy do navegador para que as imagens só possam carregar desta instância do Metabase ou dos domínios que você listar abaixo. Obrigatório para ativar Visualizações personalizadas. {0}"
++msgstr "Restringir a Content Security Policy do navegador para que as imagens só possam carregar desta instância do Analytics ou dos domínios que você listar abaixo. Obrigatório para ativar Visualizações personalizadas. {0}"
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ msgid "Restrict the browser's Content Security Policy so images can only load from this Metabase instance or the domains you list below."
+-msgstr "Restringir a Content Security Policy do navegador para que as imagens só possam carregar desta instância do Metabase ou dos domínios que você listar abaixo."
++msgstr "Restringir a Content Security Policy do navegador para que as imagens só possam carregar desta instância do Analytics ou dos domínios que você listar abaixo."
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ msgid "Allowed domains for images"
+@@ -15606,12 +15606,12 @@ msgstr "Domínios permitidos para imagens"
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ #, javascript-format
+ msgid "Domains that images can be loaded from in dashboard text, entity descriptions, and custom visualizations. Leave empty to only allow images hosted by this Metabase instance. {0}"
+-msgstr "Domínios de onde imagens podem ser carregadas no texto do Dashboard, descrições de entidades e visualizações personalizadas. Deixe em branco para permitir apenas imagens hospedadas por esta instância do Metabase. {0}"
++msgstr "Domínios de onde imagens podem ser carregadas no texto do Dashboard, descrições de entidades e visualizações personalizadas. Deixe em branco para permitir apenas imagens hospedadas por esta instância do Analytics. {0}"
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ #, javascript-format
+ msgid "Domains that images can be loaded from in dashboard text and entity descriptions. Leave empty to only allow images hosted by this Metabase instance. {0}"
+-msgstr "Domínios de onde imagens podem ser carregadas no texto do Dashboard e descrições de entidades. Deixe em branco para permitir apenas imagens hospedadas por esta instância do Metabase. {0}"
++msgstr "Domínios de onde imagens podem ser carregadas no texto do Dashboard e descrições de entidades. Deixe em branco para permitir apenas imagens hospedadas por esta instância do Analytics. {0}"
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/DomainsSettingsPage.tsx
+ msgid "Turn on the \"Restrict image domains\" setting above to enforce this allowlist."
+@@ -15764,7 +15764,7 @@ msgstr "URL do servidor de blocos de mapa a ser usado para renderizar mapas. Se
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/MapsSettingsPage.tsx
+ msgid "Metabase uses OpenStreetMaps by default."
+-msgstr "O Metabase usa o OpenStreetMaps por padrão."
++msgstr "O Analytics usa o OpenStreetMaps por padrão."
+ 
+ #: frontend/src/metabase/admin/settings/components/SettingsPages/PublicSharingSettingsPage.tsx
+ msgid "Enable Public Sharing"
+@@ -15908,7 +15908,7 @@ msgstr "Ao permitir uploads para o banco de dados de amostra, você concorda que
+ 
+ #: frontend/src/metabase/admin/settings/components/UploadSettings/UploadSettingsForm.tsx
+ msgid "Additionally, you acknowledge and agree that the ability to upload to the Sample Database is provided “as is” and without warranty of any kind, and Metabase disclaims all warranties, express or implied, and all liability in connection with the uploads to the Sample Database or the data stored within it."
+-msgstr "Além disso, você reconhece e concorda que a capacidade de fazer upload para o banco de dados de amostra é fornecida \"no estado em que se encontra\" e sem garantia de qualquer tipo, e a Metabase se isenta de todas as garantias, expressas ou implícitas, e de toda a responsabilidade em relação aos uploads para o banco de dados de amostra ou aos dados nele armazenados."
++msgstr "Além disso, você reconhece e concorda que a capacidade de fazer upload para o banco de dados de amostra é fornecida \"no estado em que se encontra\" e sem garantia de qualquer tipo, e a Analytics se isenta de todas as garantias, expressas ou implícitas, e de toda a responsabilidade em relação aos uploads para o banco de dados de amostra ou aos dados nele armazenados."
+ 
+ #: frontend/src/metabase/admin/settings/components/UploadSettings/UploadSettingsForm.tsx
+ msgid "Additional terms apply."
+@@ -15921,7 +15921,7 @@ msgstr "Nenhum dos seus bancos de dados é compatível com esta versão do recur
+ #: frontend/src/metabase/admin/settings/components/UploadSettings/UploadSettingsForm.tsx
+ #, javascript-format
+ msgid "Metabase currently supports {0} for uploads and needs a connection with write privileges."
+-msgstr "Atualmente, a Metabase suporta {0} para uploads e precisa de uma conexão com privilégios de gravação."
++msgstr "Atualmente, a Analytics suporta {0} para uploads e precisa de uma conexão com privilégios de gravação."
+ 
+ #: frontend/src/metabase/admin/settings/components/UploadSettings/UploadSettingsForm.tsx
+ msgid "Postgres, MySQL, and H2"
+@@ -16098,11 +16098,11 @@ msgstr "A filiação dos membros deste grupo não vai mais ser sincronizada com
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/DeleteGroupMappingModal/DeleteGroupMappingModal.tsx
+ msgid "What should happen with the groups themselves in Metabase?"
+-msgstr "O que devemos fazer com os grupos no Metabase?"
++msgstr "O que devemos fazer com os grupos no Analytics?"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/DeleteGroupMappingModal/DeleteGroupMappingModal.tsx
+ msgid "What should happen with the group itself in Metabase?"
+-msgstr "O que devemos fazer com o grupo no Metabase?"
++msgstr "O que devemos fazer com o grupo no Analytics?"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/DeleteGroupMappingModal/DeleteGroupMappingModal.tsx
+ msgid "Remove this group mapping?"
+@@ -16126,11 +16126,11 @@ msgstr "Remover também o grupo"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/GroupMappingsWidgetView.tsx
+ msgid "Mappings allow Metabase to automatically add and remove users from groups based on the membership information provided by the directory server. If no mappings are defined, groups will automatically be assigned based on exactly matching names."
+-msgstr "Mapeamentos permitem que o Metabase adicione e remova usuários de grupos automaticamente com base nas informações de associação fornecidas pelo servidor de diretório. Se nenhum mapeamento for definido, os grupos serão atribuídos automaticamente com base em nomes exatamente correspondentes."
++msgstr "Mapeamentos permitem que o Analytics adicione e remova usuários de grupos automaticamente com base nas informações de associação fornecidas pelo servidor de diretório. Se nenhum mapeamento for definido, os grupos serão atribuídos automaticamente com base em nomes exatamente correspondentes."
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/GroupMappingsWidgetView.tsx
+ msgid "Mappings allow Metabase to automatically add and remove users from groups based on the membership information provided by the directory server. If a group isn‘t mapped, its membership won‘t be synced."
+-msgstr "Mapeamentos permitem que a Metabase adicione e remova usuários de grupos automaticamente, com base na informação do servidor de diretório. Se um grupo não estiver mapeado, seus membros não vão ser sincronizados."
++msgstr "Mapeamentos permitem que a Analytics adicione e remova usuários de grupos automaticamente, com base na informação do servidor de diretório. Se um grupo não estiver mapeado, seus membros não vão ser sincronizados."
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/GroupMappingsWidget/GroupMappingsWidgetView.tsx
+ msgid "No mappings yet, group sync is not on"
+@@ -16182,7 +16182,7 @@ msgstr "Para onde os usuários vão após fazer login."
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/HomepageSetting.tsx
+ msgid "Default Metabase home"
+-msgstr "Página inicial padrão do Metabase"
++msgstr "Página inicial padrão do Analytics"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/HomepageSetting.tsx
+ msgid "Users without dashboard access see the default home."
+@@ -16418,7 +16418,7 @@ msgstr "Só mude isso se souber o que está fazendo!"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/UsageTracking/AnonymousTrackingInput.tsx
+ msgid "Send anonymous tracking data to Metabase"
+-msgstr "Enviar dados de rastreamento anônimo para o Metabase"
++msgstr "Enviar dados de rastreamento anônimo para o Analytics"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/UsageTracking/CollectUserDataInput.tsx
+ msgid "Collect user data to display in usage analytics"
+@@ -16427,17 +16427,17 @@ msgstr "Coletar dados do usuário para exibir nas análises de uso"
+ #: frontend/src/metabase/admin/settings/components/widgets/VersionUpdateNotice/VersionUpdateNotice.tsx
+ #, javascript-format
+ msgid "You're running Metabase {0} which is the latest and greatest!"
+-msgstr "Você está executando a versão do Metabase {0}, que é o mais recente e melhor!"
++msgstr "Você está executando a versão do Analytics {0}, que é o mais recente e melhor!"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/VersionUpdateNotice/VersionUpdateNotice.tsx
+ #, javascript-format
+ msgid "You're running Metabase {0}"
+-msgstr "Você está executando a versão do Metabase {0}"
++msgstr "Você está executando a versão do Analytics {0}"
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/VersionUpdateNotice/VersionUpdateNotice.tsx
+ #, javascript-format
+ msgid "Metabase {0} is available. You're running {1}."
+-msgstr "A versão do Metabase {0} está disponível. Você está executando a versão {1}."
++msgstr "A versão do Analytics {0} está disponível. Você está executando a versão {1}."
+ 
+ #: frontend/src/metabase/admin/settings/components/widgets/VersionUpdateNotice/VersionUpdateNotice.tsx
+ msgid "What's new"
+@@ -16518,7 +16518,7 @@ msgstr "Crie um app do Slack e conecte-se a ele."
+ 
+ #: frontend/src/metabase/admin/settings/slack/SlackSetup.tsx
+ msgid "First, **click the button below** to create your Slack App using the Metabase configuration."
+-msgstr "Primeiro, **clique no botão abaixo** para criar seu App do Slack usando a configuração do Metabase."
++msgstr "Primeiro, **clique no botão abaixo** para criar seu App do Slack usando a configuração do Analytics."
+ 
+ #: frontend/src/metabase/admin/settings/slack/SlackSetup.tsx
+ msgid "Create Slack App"
+@@ -16617,7 +16617,7 @@ msgstr "Obtenha uma instância de desenvolvimento"
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellDevInstances.tsx
+ msgid "Test out code in staging in a separate Metabase instance before deploying to production."
+-msgstr "Teste código em staging em uma instância separada do Metabase antes de fazer o deploy em produção."
++msgstr "Teste código em staging em uma instância separada do Analytics antes de fazer o deploy em produção."
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellEmailWhitelabel.tsx
+ msgid "Whitelabel email notifications"
+@@ -16673,7 +16673,7 @@ msgstr "SSO com SAML e JWT"
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellSSO.tsx
+ msgid "Metabase group sync with SAML, JWT, and LDAP"
+-msgstr "Sincronização de grupo da Metabase com SAML, JWT e LDAP"
++msgstr "Sincronização de grupo da Analytics com SAML, JWT e LDAP"
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellSSO.tsx
+ msgid "User provisioning with SCIM"
+@@ -16714,11 +16714,11 @@ msgstr "{0}\n"
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellWhitelabel.tsx
+ msgid "Make Metabase look like you"
+-msgstr "A Metabase do seu jeito"
++msgstr "A Analytics do seu jeito"
+ 
+ #: frontend/src/metabase/admin/upsells/UpsellWhitelabel.tsx
+ msgid "Customize your internal or customer-facing analytics with your brand name, logo, colors, font and more, and hide giveaway Metabase elements."
+-msgstr "Personalize suas análises internas ou voltadas para o cliente com o nome da sua marca, logotipo, cores, fonte e muito mais, e oculte elementos oferecidos da Metabase."
++msgstr "Personalize suas análises internas ou voltadas para o cliente com o nome da sua marca, logotipo, cores, fonte e muito mais, e oculte elementos oferecidos da Analytics."
+ 
+ #: frontend/src/metabase/app/nav/QuestionLineage/QuestionLineage.tsx
+ msgid "Started from"
+@@ -17035,7 +17035,7 @@ msgstr "Os modelos são como tabelas virtuais: faça todas as suas junções e c
+ 
+ #: frontend/src/metabase/browse/models/EmptyStates/ModelsVideo.tsx
+ msgid "Use Models in Metabase | Getting started with Metabase"
+-msgstr "Use modelos na Metabase | Introdução à Metabase"
++msgstr "Use modelos na Analytics | Introdução à Analytics"
+ 
+ #: frontend/src/metabase/browse/models/EmptyStates/ModelsVideo.tsx
+ msgid "Browse models video thumbnail"
+@@ -17730,7 +17730,7 @@ msgstr "Erro de recursos Pro. "
+ 
+ #: frontend/src/metabase/common/components/AppBanner/ReadOnlyBanner/ReadOnlyBanner.tsx
+ msgid "Metabase is under maintenance and is operating in read-only mode. It should only take up to 30 minutes."
+-msgstr "O Metabase está em manutenção e operando em modo somente leitura. Isso deve levar apenas 30 minutos."
++msgstr "O Analytics está em manutenção e operando em modo somente leitura. Isso deve levar apenas 30 minutos."
+ 
+ #: frontend/src/metabase/common/components/AppBanner/TrialBanner/TrialBanner.tsx
+ msgid "Today is the last day of your trial."
+@@ -17772,7 +17772,7 @@ msgstr "Usar padrão do sistema"
+ 
+ #: frontend/src/metabase/common/components/CommunityLocalizationNotice/CommunityLocalizationNotice.tsx
+ msgid "Some translations are created by the Metabase community, and might not be perfect."
+-msgstr "Algumas traduções são criadas pela comunidade Metabase e podem não ser perfeitas."
++msgstr "Algumas traduções são criadas pela comunidade Analytics e podem não ser perfeitas."
+ 
+ #: frontend/src/metabase/common/components/CommunityLocalizationNotice/CommunityLocalizationNotice.tsx
+ msgid "Some translations are created by the community, and might not be perfect."
+@@ -19064,7 +19064,7 @@ msgstr "Incorporações mais avançadas"
+ 
+ #: frontend/src/metabase/common/components/upsells/UpsellEmbedHomepage.tsx
+ msgid "Give your customers the full power of Metabase in your own app, with SSO, advanced permissions, customization, and more."
+-msgstr "Dê aos seus clientes todo o poder do Metabase no seu próprio app, com SSO, permissões avançadas, personalização e muito mais."
++msgstr "Dê aos seus clientes todo o poder do Analytics no seu próprio app, com SSO, permissões avançadas, personalização e muito mais."
+ 
+ #: frontend/src/metabase/common/components/upsells/UpsellMetabaseBanner.tsx
+ #: frontend/src/metabase/embedding/components/EmbedModal/StaticEmbedSetupPane/LookAndFeelSettings.tsx
+@@ -19077,7 +19077,7 @@ msgstr "Fazer upgrade do plano"
+ 
+ #: frontend/src/metabase/common/components/upsells/UpsellMetabaseBanner.tsx
+ msgid "The “Powered by Metabase” banner appears on all guest embeds created with your current version. Upgrade to remove it (and customize a lot more)"
+-msgstr "O banner “Powered by Metabase” aparece em todos os embeds de convidado criados com sua versão atual. Faça upgrade para removê-lo (e personalizar muito mais)"
++msgstr "O banner “Powered by Analytics” aparece em todos os embeds de convidado criados com sua versão atual. Faça upgrade para removê-lo (e personalizar muito mais)"
+ 
+ #: frontend/src/metabase/common/components/upsells/UpsellUsageAnalytics.tsx
+ msgid "See who’s doing what, when"
+@@ -19085,7 +19085,7 @@ msgstr "Veja quem está fazendo o quê e quando"
+ 
+ #: frontend/src/metabase/common/components/upsells/UpsellUsageAnalytics.tsx
+ msgid "Get detailed reports for tracking Metabase content usage, performance, and configuration changes."
+-msgstr "Obtenha relatórios detalhados para rastrear o uso do conteúdo da Metabase, o desempenho e as alterações de configuração."
++msgstr "Obtenha relatórios detalhados para rastrear o uso do conteúdo da Analytics, o desempenho e as alterações de configuração."
+ 
+ #: frontend/src/metabase/common/components/upsells/components/UpgradeModal/UpgradeModalError.tsx
+ msgid "Please try again later."
+@@ -21515,11 +21515,11 @@ msgstr "Re-sincronizar schemas"
+ #: frontend/src/metabase/data-studio/data-model/components/SyncOptionsModal.tsx
+ #: frontend/src/metabase/metadata/components/SyncOptionsModal/SyncOptionsModal.tsx
+ msgid "If you’ve made changes to this table in the underlying database that aren’t showing up in Metabase yet, re-syncing the schema can fix that."
+-msgstr "Se você fez alterações nesta tabela no banco de dados subjacente que ainda não aparecem no Metabase, resincronizar o esquema pode corrigir isso."
++msgstr "Se você fez alterações nesta tabela no banco de dados subjacente que ainda não aparecem no Analytics, resincronizar o esquema pode corrigir isso."
+ 
+ #: frontend/src/metabase/data-studio/data-model/components/SyncOptionsModal.tsx
+ msgid "If you've made changes to these tables in the underlying databases that aren't showing up in Metabase yet, re-syncing the schemas can fix that."
+-msgstr "Se você fez alterações nessas tabelas nos bancos de dados subjacentes que ainda não estão aparecendo no Metabase, re-sincronizar os esquemas pode corrigir isso."
++msgstr "Se você fez alterações nessas tabelas nos bancos de dados subjacentes que ainda não estão aparecendo no Analytics, re-sincronizar os esquemas pode corrigir isso."
+ 
+ #: frontend/src/metabase/data-studio/data-model/components/SyncOptionsModal.tsx
+ #: frontend/src/metabase/metadata/components/SyncOptionsModal/SyncOptionsModal.tsx
+@@ -21529,11 +21529,11 @@ msgstr "Escanear valores do campo"
+ #: frontend/src/metabase/data-studio/data-model/components/SyncOptionsModal.tsx
+ #: frontend/src/metabase/metadata/components/SyncOptionsModal/SyncOptionsModal.tsx
+ msgid "Metabase can scan the values in this table to enable checkbox filters in dashboards and questions."
+-msgstr "O Metabase pode fazer uma varredura dos valores nesta tabela para habilitar filtros de caixa de seleção em painéis e perguntas."
++msgstr "O Analytics pode fazer uma varredura dos valores nesta tabela para habilitar filtros de caixa de seleção em painéis e perguntas."
+ 
+ #: frontend/src/metabase/data-studio/data-model/components/SyncOptionsModal.tsx
+ msgid "Metabase can scan the values in these tables to enable checkbox filters in dashboards and questions."
+-msgstr "O Metabase pode escanear os valores nestas tabelas para habilitar filtros de checkbox em dashboards e perguntas."
++msgstr "O Analytics pode escanear os valores nestas tabelas para habilitar filtros de checkbox em dashboards e perguntas."
+ 
+ #: frontend/src/metabase/data-studio/data-model/components/SyncTableSchemaButton/SyncTableSchemaButton.tsx
+ #: frontend/src/metabase/data-studio/data-model/components/TableSection/components/TableActionsMenu/TableActionsMenu.tsx
+@@ -22089,7 +22089,7 @@ msgstr "Usar senha"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseCacheScheduleField/DatabaseCacheScheduleField.tsx
+ msgid "When a user adds a new filter to a dashboard or a SQL question, Metabase will scan the field(s) mapped to that filter in order to show the list of selectable values."
+-msgstr "Quando um usuário adicionar um filtro a um painel ou pergunta de SQL, a Metabase vai escanear o(s) campo(s) mapeado(s) para esse filtro para mostrar a lista de opções."
++msgstr "Quando um usuário adicionar um filtro a um painel ou pergunta de SQL, a Analytics vai escanear o(s) campo(s) mapeado(s) para esse filtro para mostrar a lista de opções."
+ 
+ #: frontend/src/metabase/databases/components/DatabaseCacheScheduleField/ScheduleModePicker.tsx
+ msgid "Regularly, on a schedule"
+@@ -22182,7 +22182,7 @@ msgstr "Banco de dados de exemplo para testes"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseEngineList/DatabaseEngineList.tsx
+ msgid "(by Metabase)"
+-msgstr "(pelo Metabase)"
++msgstr "(pelo Analytics)"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseEngineList/DatabaseEngineList.tsx
+ msgid "Included"
+@@ -22222,7 +22222,7 @@ msgstr "encontrá-lo aqui"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseEngineWarning/DatabaseEngineWarning.tsx
+ msgid "This is a community-developed driver and not supported by Metabase. "
+-msgstr "Este driver é desenvolvido pela comunidade e não recebe suporte da Metabase. "
++msgstr "Este driver é desenvolvido pela comunidade e não recebe suporte da Analytics. "
+ 
+ #: frontend/src/metabase/databases/components/DatabaseForm/DatabaseFormFooter.tsx
+ #: frontend/src/metabase/databases/components/DatabaseHelpCard/DatabaseHelpCard.tsx
+@@ -22266,7 +22266,7 @@ msgstr "Verificar configurações de Host e Porta"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/ContactSupportButtonSection.tsx
+ msgid "Reach out to Metabase engineers who can help with technical troubleshooting. Not your typical support agents."
+-msgstr "Entre em contato com engenheiros da Metabase que podem ajudar com troubleshooting técnico. Não são agentes de suporte comuns."
++msgstr "Entre em contato com engenheiros da Analytics que podem ajudar com troubleshooting técnico. Não são agentes de suporte comuns."
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/ContactSupportButtonSection.tsx
+ msgid "Contact Support"
+@@ -22282,7 +22282,7 @@ msgstr "Hmm, não conseguimos conectar ao banco de dados"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/DatabaseFormError.tsx
+ msgid "Metabase tried, but couldn't connect"
+-msgstr "Metabase tentou, mas não conseguiu conectar"
++msgstr "Analytics tentou, mas não conseguiu conectar"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/DatabaseFormError.tsx
+ msgid "More troubleshooting tips"
+@@ -22302,7 +22302,7 @@ msgstr "permissões corretas"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/useTroubleshootingTips.tsx
+ msgid "Try allowing Metabase IP addresses"
+-msgstr "Tente permitir os endereços IP do Metabase"
++msgstr "Tente permitir os endereços IP do Analytics"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/useTroubleshootingTips.tsx
+ #, javascript-format
+@@ -22322,13 +22322,13 @@ msgstr "Você vai precisar de {0} para fazer isso."
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/useTroubleshootingTips.tsx
+ msgid "Check Metabase user permissions"
+-msgstr "Verifique as permissões do usuário do Metabase"
++msgstr "Verifique as permissões do usuário do Analytics"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/useTroubleshootingTips.tsx
+ #, javascript-format
+ msgctxt "{0} refers to 'correct permissions'"
+ msgid "Check that Metabase has the {0} or user role for your database."
+-msgstr "Verifique se o Metabase tem as {0} ou a função de usuário para o seu banco de dados."
++msgstr "Verifique se o Analytics tem as {0} ou a função de usuário para o seu banco de dados."
+ 
+ #: frontend/src/metabase/databases/components/DatabaseFormError/useTroubleshootingTips.tsx
+ msgid "Double-check connection settings"
+@@ -22385,7 +22385,7 @@ msgstr "Nosso {0}"
+ 
+ #: frontend/src/metabase/databases/components/DatabaseNameField/DatabaseNameField.tsx
+ msgid "Choose what this data will be called in Metabase."
+-msgstr "Escolha como esses dados serão chamados no Metabase."
++msgstr "Escolha como esses dados serão chamados no Analytics."
+ 
+ #: frontend/src/metabase/databases/components/DatabaseSectionField/DatabaseSectionField.tsx
+ msgid "Hide advanced options"
+@@ -23014,7 +23014,7 @@ msgstr "Falha ao configurar representação de conexão"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/ConnectionImpersonationStepContent.tsx
+ msgid "None of your databases support connection impersonation. Pick a different data segregation strategy in the previous step, or connect a new database in the Database settings before proceeding. Metabase connects to more than 15 popular databases."
+-msgstr "Nenhum dos seus bancos de dados oferece suporte à representação de conexão. Escolha uma estratégia de segregação de dados diferente na etapa anterior ou conecte um novo banco de dados nas configurações de Banco de dados antes de prosseguir. O Metabase se conecta a mais de 15 bancos de dados populares."
++msgstr "Nenhum dos seus bancos de dados oferece suporte à representação de conexão. Escolha uma estratégia de segregação de dados diferente na etapa anterior ou conecte um novo banco de dados nas configurações de Banco de dados antes de prosseguir. O Analytics se conecta a mais de 15 bancos de dados populares."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/ConnectionImpersonationStepContent.tsx
+ msgid "Select one or more databases to be made visible to all tenant users. Tenant users will be able to create queries on these databases with the query builder. The tenant attribute database_role will be used to manage permissions. You will specify this attribute for each tenant when you create tenants."
+@@ -23044,7 +23044,7 @@ msgstr "Segurança em nível de linha e coluna"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "All data is stored in the same database and Metabase will apply a filter to queries for a table column to match a specific value (ex: customerId = 2)."
+-msgstr "Todos os dados são armazenados no mesmo banco de dados e o Metabase aplicará um filtro às consultas para uma coluna da tabela corresponder a um valor específico (ex.: customerId = 2)."
++msgstr "Todos os dados são armazenados no mesmo banco de dados e o Analytics aplicará um filtro às consultas para uma coluna da tabela corresponder a um valor específico (ex.: customerId = 2)."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "Use row and column level security"
+@@ -23057,7 +23057,7 @@ msgstr "Representação de conexão"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "All data is stored in the same database, but Metabase will use a different database role to connect for each tenant. Roles are configured at the database level to only query relevant data."
+-msgstr "Todos os dados são armazenados no mesmo banco de dados, mas o Metabase usará uma função de banco de dados diferente para se conectar para cada tenant. As funções são configuradas no nível do banco de dados para consultar apenas os dados relevantes."
++msgstr "Todos os dados são armazenados no mesmo banco de dados, mas o Analytics usará uma função de banco de dados diferente para se conectar para cada tenant. As funções são configuradas no nível do banco de dados para consultar apenas os dados relevantes."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "Use connection impersonation"
+@@ -23065,7 +23065,7 @@ msgstr "Usar representação de conexão"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "Each tenant has their own database with identical schema. Metabase will use a connection string from a tenant attribute to run queries against a different destination database."
+-msgstr "Cada tenant tem seu próprio banco de dados com schema idêntico. O Metabase usará uma string de conexão de um atributo do tenant para executar consultas em um banco de dados de destino diferente."
++msgstr "Cada tenant tem seu próprio banco de dados com schema idêntico. O Analytics usará uma string de conexão de um atributo do tenant para executar consultas em um banco de dados de destino diferente."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/DataSegregationStrategyPicker.tsx
+ msgid "Use database routing"
+@@ -23097,7 +23097,7 @@ msgstr "Falha ao ativar tenants e criar coleção compartilhada"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/EnableTenantsStepContent.tsx
+ msgid "A tenant is a set of attributes assigned to a user to isolate them from other tenants. For example, in a SaaS app with embedded Metabase dashboards, you can assign each customer to a tenant."
+-msgstr "Um tenant é um conjunto de atributos atribuídos a um usuário para isolá-lo de outros tenants. Por exemplo, em um app SaaS com dashboards do Metabase incorporados, você pode atribuir cada cliente a um tenant."
++msgstr "Um tenant é um conjunto de atributos atribuídos a um usuário para isolá-lo de outros tenants. Por exemplo, em um app SaaS com dashboards do Analytics incorporados, você pode atribuir cada cliente a um tenant."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupPermissionsAndTenantsPage/EnableTenantsStepContent.tsx
+ msgid "The main benefit of tenants is that you can reuse the same dashboards and permissions across all tenants, instead of recreating them for each customer, while ensuring each tenant only sees its own data. A shared collection will be created to hold dashboards and charts that are shared between all tenants."
+@@ -23217,7 +23217,7 @@ msgstr "Para Node.js, recomendamos jsonwebtoken:"
+ #, javascript-format
+ msgctxt "{0} is '/sso/metabase'"
+ msgid "Next, set up an endpoint on your backend (e.g., {0}) that uses your Metabase JWT shared secret to generate a JWT for the authenticated user. "
+-msgstr "Em seguida, configure um endpoint no seu backend (por exemplo, {0}) que use o segredo compartilhado do JWT do Metabase para gerar um JWT para o usuário autenticado. "
++msgstr "Em seguida, configure um endpoint no seu backend (por exemplo, {0}) que use o segredo compartilhado do JWT do Analytics para gerar um JWT para o usuário autenticado. "
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/AddEndpointStep.tsx
+ #, javascript-format
+@@ -23247,11 +23247,11 @@ msgstr "Falha ao ativar autenticação JWT"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/SetupJwtStep.tsx
+ msgid "To implement SSO you will need to add a new endpoint to your app. You can connect Metabase to your identity provider using JSON Web Tokens (JWT) to authenticate people. Enabling JWT authentication will also create a signing key and enable group sync."
+-msgstr "Para implementar SSO, você precisará adicionar um novo endpoint ao seu app. Você pode conectar o Metabase ao seu provedor de identidade usando JSON Web Tokens (JWT) para autenticar pessoas. Ativar a autenticação JWT também criará uma chave de assinatura e ativará a sincronização de grupos."
++msgstr "Para implementar SSO, você precisará adicionar um novo endpoint ao seu app. Você pode conectar o Analytics ao seu provedor de identidade usando JSON Web Tokens (JWT) para autenticar pessoas. Ativar a autenticação JWT também criará uma chave de assinatura e ativará a sincronização de grupos."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/SetupJwtStep.tsx
+ msgid "This is where Metabase will redirect login requests"
+-msgstr "É para aqui que o Metabase redirecionará as solicitações de login"
++msgstr "É para aqui que o Analytics redirecionará as solicitações de login"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/SetupJwtStep.tsx
+ msgid "Enable JWT authentication and continue"
+@@ -23284,7 +23284,7 @@ msgstr "Tente fazer login com SSO. Funcionou?"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "To check if JWT authentication was configured successfully, open Metabase in a different browser or in a private tab and try logging in to your account using single sign-on (SSO). Is login working correctly?"
+-msgstr "Para verificar se a autenticação JWT foi configurada com sucesso, abra o Metabase em outro navegador ou em uma aba anônima e tente fazer login na sua conta usando login único (SSO). O login está funcionando corretamente?"
++msgstr "Para verificar se a autenticação JWT foi configurada com sucesso, abra o Analytics em outro navegador ou em uma aba anônima e tente fazer login na sua conta usando login único (SSO). O login está funcionando corretamente?"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "No, I couldn't log in"
+@@ -23316,7 +23316,7 @@ msgstr "Erro de descriptografia JWT: \"Message seems corrupt\""
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "If after being redirected from your app to Metabase, you see \"Message seems corrupt or manipulated\" there was an issue decrypting signed JWT. Ensure METABASE_JWT_SHARED_SECRET has the right value."
+-msgstr "Se, após ser redirecionado do seu app para o Metabase, você vir \"Message seems corrupt or manipulated\", houve um problema ao descriptografar o JWT assinado. Garanta que METABASE_JWT_SHARED_SECRET tenha o valor correto."
++msgstr "Se, após ser redirecionado do seu app para o Analytics, você vir \"Message seems corrupt or manipulated\", houve um problema ao descriptografar o JWT assinado. Garanta que METABASE_JWT_SHARED_SECRET tenha o valor correto."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "Tenant ID mismatch error"
+@@ -23324,7 +23324,7 @@ msgstr "Erro de incompatibilidade de ID do tenant"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "If after being redirected from your app to Metabase, you see an error message \"Tenant ID mismatch with existing user\", your application is trying to sign in a the user with the wrong tenant slug. Review @tenant claim in the JWT and ensure it matches the tenant this tenant user belongs to."
+-msgstr "Se, após ser redirecionado do seu app para o Metabase, você vir uma mensagem de erro \"Tenant ID mismatch with existing user\", sua aplicação está tentando fazer login do usuário com o slug de tenant errado. Revise a claim @tenant no JWT e garanta que ela corresponda ao tenant ao qual este usuário do tenant pertence."
++msgstr "Se, após ser redirecionado do seu app para o Analytics, você vir uma mensagem de erro \"Tenant ID mismatch with existing user\", sua aplicação está tentando fazer login do usuário com o slug de tenant errado. Revise a claim @tenant no JWT e garanta que ela corresponda ao tenant ao qual este usuário do tenant pertence."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "User provisioning disabled for JWT SSO"
+@@ -23332,7 +23332,7 @@ msgstr "Provisionamento de usuário desativado para SSO JWT"
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "If after being redirected from your app to Metabase, you see an error message \"Sorry, but you'll need a $SITENAME account to view this page, contact your administrator. User provisioning is turned off for JWT SSO in admin settings/authentication. Either turn this feature on to have users be provisioned if they don't exist yet, or ensure users exist before signing them in via JWT SSO."
+-msgstr "Se, após ser redirecionado do seu app para o Metabase, você vir uma mensagem de erro \"Sorry, but you'll need a $SITENAME account to view this page, contact your administrator. O provisionamento de usuário está desativado para SSO JWT em configurações de administração/autenticação. Ative esse recurso para provisionar usuários caso eles ainda não existam ou garanta que os usuários existam antes de fazer login via SSO JWT."
++msgstr "Se, após ser redirecionado do seu app para o Analytics, você vir uma mensagem de erro \"Sorry, but you'll need a $SITENAME account to view this page, contact your administrator. O provisionamento de usuário está desativado para SSO JWT em configurações de administração/autenticação. Ative esse recurso para provisionar usuários caso eles ainda não existam ou garanta que os usuários existam antes de fazer login via SSO JWT."
+ 
+ #: frontend/src/metabase/embedding/embedding-hub/components/SetupSsoPage/TestJwtStep.tsx
+ msgid "Contact customer support"
+@@ -23421,7 +23421,7 @@ msgstr "Informações do tema da instância"
+ 
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/AuthenticationCard.tsx
+ msgid "Metabase account (SSO)"
+-msgstr "Conta do Metabase (SSO)"
++msgstr "Conta do Analytics (SSO)"
+ 
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/AuthenticationCard.tsx
+ msgid "Guest"
+@@ -23461,11 +23461,11 @@ msgid "When you embed charts or dashboards from Metabase in your\n"
+ "General Public License that covers the rest of Metabase,\n"
+ "provided you keep the Metabase logo and the \"Powered by\n"
+ "Metabase\" visible on those embeds."
+-msgstr "Quando você incorpora gráficos ou dashboards do Metabase na sua\n"
++msgstr "Quando você incorpora gráficos ou dashboards do Analytics na sua\n"
+ "própria aplicação, essa aplicação não está sujeita à licença Affero\n"
+-"General Public License que cobre o restante do Metabase,\n"
+-"desde que você mantenha o logo do Metabase e o \"Powered by\n"
+-"Metabase\" visíveis nessas incorporações."
++"General Public License que cobre o restante do Analytics,\n"
++"desde que você mantenha o logo do Analytics e o \"Powered by\n"
++"Analytics\" visíveis nessas incorporações."
+ 
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/AuthenticationCard/EnableGuestEmbedsSection.tsx
+ #: frontend/src/metabase/public/components/widgets/LegaleseStep/LegaleseStep.tsx
+@@ -23679,7 +23679,7 @@ msgstr "Adicione este trecho ao seu app. Para modificar este código e ajustar o
+ 
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/steps/GetCodeStep/MetabaseAccountCard.tsx
+ msgid "Metabase account"
+-msgstr "Conta do Metabase"
++msgstr "Conta do Analytics"
+ 
+ #: frontend/src/metabase/embedding/embedding-iframe-sdk-setup/components/steps/GetCodeStep/MetabaseAccountCard.tsx
+ msgid "Single sign-on"
+@@ -23784,7 +23784,7 @@ msgstr "Cor de fundo"
+ 
+ #: frontend/src/metabase/embedding/mcp/McpExploreButton.tsx
+ msgid "Explore in Metabase"
+-msgstr "Explorar no Metabase"
++msgstr "Explorar no Analytics"
+ 
+ #: frontend/src/metabase/embedding/mcp/McpFeedbackArea.tsx
+ msgid "Give positive feedback for this result"
+@@ -23870,7 +23870,7 @@ msgstr "Falha na autenticação. Tente sair e entrar novamente e, em seguida, pe
+ 
+ #: frontend/src/metabase/embedding/mcp/utils/getMcpAppsUserAndSettingsFetchError.ts
+ msgid "Could not connect to Metabase. Make sure this MCP client is enabled in AI settings and that Metabase is reachable."
+-msgstr "Não foi possível conectar ao Metabase. Verifique se este cliente MCP está habilitado nas configurações de IA e se o Metabase está acessível."
++msgstr "Não foi possível conectar ao Analytics. Verifique se este cliente MCP está habilitado nas configurações de IA e se o Analytics está acessível."
+ 
+ #: frontend/src/metabase/explorations/components/ExplorationSidebar/ExplorationErrorMarker.tsx
+ msgid "Failed to generate"
+@@ -24400,11 +24400,11 @@ msgstr "Seu feedback foi enviado."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/EmbedHomepageView.tsx
+ msgid "Embedding Metabase"
+-msgstr "Como incorporar a Metabase"
++msgstr "Como incorporar a Analytics"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/EmbedHomepageView.tsx
+ msgid "Give your customers secure, multi-tenant access to their data with as much (or as little) interactivity and tools to explore data as you want, with as much customization as you need. Embed dashboards, charts—even Metabase's query editor—with iframes or as individual React components."
+-msgstr "Ofereça aos seus clientes acesso seguro e multilocatário aos dados deles com o máximo (ou o mínimo) de interatividade e ferramentas para explorar os dados que você quiser, com a personalização que precisar. Incorpore painéis, gráficos e até mesmo o editor de consultas da Metabase com iframes ou como componentes React individuais."
++msgstr "Ofereça aos seus clientes acesso seguro e multilocatário aos dados deles com o máximo (ou o mínimo) de interatividade e ferramentas para explorar os dados que você quiser, com a personalização que precisar. Incorpore painéis, gráficos e até mesmo o editor de consultas da Analytics com iframes ou como componentes React individuais."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/EmbedJsContent.tsx
+ msgid "Go to setup guide"
+@@ -24420,7 +24420,7 @@ msgstr "Incorporação modular"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/EmbedJsContent.tsx
+ msgid "A JavaScript library built on top of Metabase’s modular embedding SDK that lets you embed individual components (charts, dashboards, query builder) using plain JS — no React setup required. You get per-component controls like drill-through, parameters, downloads, theming."
+-msgstr "Uma biblioteca JavaScript construída sobre o SDK de incorporação modular do Metabase que permite incorporar componentes individuais (gráficos, dashboards, construtor de consultas) usando JS puro — sem precisar configurar React. Você ganha controles por componente como drill-through, parâmetros, downloads, temas."
++msgstr "Uma biblioteca JavaScript construída sobre o SDK de incorporação modular do Analytics que permite incorporar componentes individuais (gráficos, dashboards, construtor de consultas) usando JS puro — sem precisar configurar React. Você ganha controles por componente como drill-through, parâmetros, downloads, temas."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/FeedbackModal.tsx
+ msgid "How can we improve embedding?"
+@@ -24428,7 +24428,7 @@ msgstr "Como podemos melhorar a incorporação?"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/FeedbackModal.tsx
+ msgid "Please let us know what happened. We’re always looking for ways to improve Metabase."
+-msgstr "Informe-nos o que aconteceu. Estamos sempre procurando maneiras de melhorar a Metabase."
++msgstr "Informe-nos o que aconteceu. Estamos sempre procurando maneiras de melhorar a Analytics."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/FeedbackModal.tsx
+ msgid "Tell us what happened"
+@@ -24440,7 +24440,7 @@ msgstr "Deixe seu e-mail se quiser receber nossa resposta"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/HeaderWithDismiss.tsx
+ msgid "Get started with Embedding Metabase in your app"
+-msgstr "Comece a incorporar a Metabase em seu aplicativo"
++msgstr "Comece a incorporar a Analytics em seu aplicativo"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/HeaderWithDismiss.tsx
+ msgid "Hide these"
+@@ -24465,7 +24465,7 @@ msgstr "Precisa de mais informações?"
+ #: frontend/src/metabase/home/components/EmbedHomepage/NeedMoreInfoCard.tsx
+ #, javascript-format
+ msgid "Explore the {0} and {1} to learn more about what Metabase offers."
+-msgstr "Explore {0} e {1} para aprender mais sobre o que a Metabase oferece."
++msgstr "Explore {0} e {1} para aprender mais sobre o que a Analytics oferece."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/NeedMoreInfoCard.tsx
+ msgid "embedding documentation"
+@@ -24493,7 +24493,7 @@ msgstr "Incorporação para convidados"
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/StaticEmbedContent.tsx
+ msgid "Embed a dashboard in a 'Powered by Metabase' iframe with interactivity limited to filters and tooltips, and a few customization options. The iframe loads a Metabase URL secured with a signed JSON Web Token (JWT). Appears with \"Powered by Metabase\", on Open Source and Starter plans, with the option to remove on Pro and Enterprise. As the simplest form of embedding, you can add a dashboard into your app in a few minutes with just a snippet."
+-msgstr "Incorpore um painel de controle em um iframe \"Powered by Metabase\" com interatividade limitada a filtros e dicas de ferramentas e algumas opções de personalização. O iframe carrega um URL da Metabase protegido por um JSON Web Token (JWT) assinado. Aparece com \"Powered by Metabase\", nos planos Open Source e Starter, com a opção de remoção nos planos Pro e Enterprise. A forma mais simples de incorporação é adicionar um painel ao seu aplicativo em poucos minutos com apenas um snippet."
++msgstr "Incorpore um painel de controle em um iframe \"Powered by Analytics\" com interatividade limitada a filtros e dicas de ferramentas e algumas opções de personalização. O iframe carrega um URL da Analytics protegido por um JSON Web Token (JWT) assinado. Aparece com \"Powered by Analytics\", nos planos Open Source e Starter, com a opção de remoção nos planos Pro e Enterprise. A forma mais simples de incorporação é adicionar um painel ao seu aplicativo em poucos minutos com apenas um snippet."
+ 
+ #: frontend/src/metabase/home/components/EmbedHomepage/StaticEmbedContent.tsx
+ msgid "Embed an example dashboard"
+@@ -24664,7 +24664,7 @@ msgstr "Conectando um provedor de IA nas configurações de admin"
+ #: frontend/src/metabase/home/components/Onboarding/items/AiItem.tsx
+ #, javascript-format
+ msgid "You can use AI to explore your data in {0} three ways: ask Metabot directly in the {1} app, connect external AI tools via the MCP server, or drive development workflows with AI using the Metabase CLI."
+-msgstr "Você pode usar IA para explorar seus dados no {0} de três formas: pergunte ao Metabot diretamente no app {1}, conecte ferramentas externas de IA pelo servidor MCP ou impulsione fluxos de desenvolvimento com IA usando a CLI do Metabase."
++msgstr "Você pode usar IA para explorar seus dados no {0} de três formas: pergunte ao Metabot diretamente no app {1}, conecte ferramentas externas de IA pelo servidor MCP ou impulsione fluxos de desenvolvimento com IA usando a CLI do Analytics."
+ 
+ #: frontend/src/metabase/home/components/Onboarding/items/AlertItem.tsx
+ msgid "Get notified when data changes"
+@@ -24824,7 +24824,7 @@ msgstr "A busca semântica também é executada nesta conexão e vai parar de fu
+ 
+ #: frontend/src/metabase/metabot/components/AIProviderConfigurationForm/AIProviderList.tsx
+ msgid "This cancels your Metabase AI service subscription, and its models will no longer be available."
+-msgstr "Isso cancela sua assinatura do serviço de IA do Metabase, e seus modelos não estarão mais disponíveis."
++msgstr "Isso cancela sua assinatura do serviço de IA do Analytics, e seus modelos não estarão mais disponíveis."
+ 
+ #: frontend/src/metabase/metabot/components/AIProviderConfigurationForm/AIProviderList.tsx
+ msgid "This provider's models will no longer be available, and its saved credentials will be deleted."
+@@ -25668,7 +25668,7 @@ msgstr "Ingerido"
+ 
+ #: frontend/src/metabase/metadata/components/DataSourceInput.tsx
+ msgid "Metabase transform"
+-msgstr "Transformação do Metabase"
++msgstr "Transformação do Analytics"
+ 
+ #: frontend/src/metabase/metadata/components/DataSourceInput.tsx
+ msgid "Source data"
+@@ -26854,7 +26854,7 @@ msgstr "Filtrar registros"
+ 
+ #: frontend/src/metabase/monitor/tools/components/Logs/Logs.tsx
+ msgid "All Metabase processes"
+-msgstr "Todos os processos do Metabase"
++msgstr "Todos os processos do Analytics"
+ 
+ #: frontend/src/metabase/monitor/tools/components/Logs/Logs.tsx
+ msgid "Nothing matches your filters."
+@@ -27367,7 +27367,7 @@ msgstr "Criado em"
+ 
+ #: frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx
+ msgid "Metabase is a Trademark of Metabase, Inc"
+-msgstr "Metabase é uma marca registrada da Metabase, Inc"
++msgstr "Analytics é uma marca registrada da Analytics, Inc"
+ 
+ #: frontend/src/metabase/nav/components/AboutModal/AboutModal.tsx
+ msgid "and is built with care by a team from all across this pale blue dot."
+@@ -27380,7 +27380,7 @@ msgstr "Barra de navegação"
+ 
+ #: frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx
+ msgid "Metabase Admin"
+-msgstr "Administrador da Metabase"
++msgstr "Administrador da Analytics"
+ 
+ #: frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx
+ msgid "Navigation links"
+@@ -27410,7 +27410,7 @@ msgstr "Monitor"
+ #: frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx
+ #: frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/GettingStartedSection.tsx
+ msgid "How to use Metabase"
+-msgstr "Como usar a Metabase"
++msgstr "Como usar a Analytics"
+ 
+ #: frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx
+ msgid "Keyboard shortcuts"
+@@ -27437,7 +27437,7 @@ msgstr "Explorar recursos pagos"
+ 
+ #: frontend/src/metabase/nav/components/WhatsNewNotification/WhatsNewNotification.tsx
+ msgid "Metabase has been updated"
+-msgstr "A Metabase foi atualizada"
++msgstr "A Analytics foi atualizada"
+ 
+ #: frontend/src/metabase/nav/components/WhatsNewNotification/WhatsNewNotification.tsx
+ msgid "See what's new"
+@@ -27533,7 +27533,7 @@ msgstr "Enviar arquivos CSV"
+ 
+ #: frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/AddDataModal/Panels/AddDataModalEmptyStates.tsx
+ msgid "To work with CSVs, either enable file uploads in your database, or add Metabase Storage."
+-msgstr "Para trabalhar com CSVs, ative uploads de arquivos no seu banco de dados ou adicione o Metabase Storage."
++msgstr "Para trabalhar com CSVs, ative uploads de arquivos no seu banco de dados ou adicione o Analytics Storage."
+ 
+ #: frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/AddDataModal/Panels/AddDataModalEmptyStates.tsx
+ msgid "To work with CSVs, enable file uploads in your database."
+@@ -27909,16 +27909,16 @@ msgstr "Atalhos"
+ 
+ #: frontend/src/metabase/palette/constants.ts
+ msgid "Metabase documentation"
+-msgstr "Documentação do Metabase"
++msgstr "Documentação do Analytics"
+ 
+ #: frontend/src/metabase/palette/constants.ts
+ #, javascript-format
+ msgid "Search Metabase's docs for \"{0}\""
+-msgstr "Pesquisar na documentação do Metabase por \"{0}\""
++msgstr "Pesquisar na documentação do Analytics por \"{0}\""
+ 
+ #: frontend/src/metabase/palette/constants.ts
+ msgid "View Metabase documentation"
+-msgstr "Ver a documentação do Metabase"
++msgstr "Ver a documentação do Analytics"
+ 
+ #: frontend/src/metabase/palette/constants.ts
+ msgid "Api keys"
+@@ -28597,7 +28597,7 @@ msgstr "nossos termos de incorporação."
+ 
+ #: frontend/src/metabase/public/components/widgets/LegaleseStep/LegaleseStep.tsx
+ msgid "When you embed charts or dashboards from Metabase in your own application that application isn't subject to the Affero General Public License that covers the rest of Metabase, provided you keep the Metabase logo and the \"Powered by Metabase\" visible on those embeds."
+-msgstr "Quando você incorpora gráficos ou painéis do Metabase em seu próprio aplicativo, esse aplicativo não está sujeito à Licença Pública Geral da Affero, que abrange o restante do Metabase, desde que você mantenha o logotipo do Metabase e \"Powered by Metabase\" visíveis nessas incorporações."
++msgstr "Quando você incorpora gráficos ou painéis do Analytics em seu próprio aplicativo, esse aplicativo não está sujeito à Licença Pública Geral da Affero, que abrange o restante do Analytics, desde que você mantenha o logotipo do Analytics e \"Powered by Analytics\" visíveis nessas incorporações."
+ 
+ #: frontend/src/metabase/pulse/pulse.ts
+ msgid "emailed"
+@@ -30979,7 +30979,7 @@ msgstr "Está tudo pronto!"
+ 
+ #: frontend/src/metabase/setup/components/CompletedStep/CompletedStep.tsx
+ msgid "Want to use AI in Metabase?"
+-msgstr "Quer usar IA no Metabase?"
++msgstr "Quer usar IA no Analytics?"
+ 
+ #: frontend/src/metabase/setup/components/CompletedStep/CompletedStep.tsx
+ msgid "Connect an AI provider to use AI explorations, SQL generation and Metabot."
+@@ -30995,11 +30995,11 @@ msgstr "Receba e-mails esporádicos sobre novos lançamentos e atualizações de
+ 
+ #: frontend/src/metabase/setup/components/CompletedStep/CompletedStep.tsx
+ msgid "Take me to Metabase"
+-msgstr "Leve-me para a Metabase"
++msgstr "Leve-me para a Analytics"
+ 
+ #: frontend/src/metabase/setup/components/DataUsageStep/DataUsageStep.tsx
+ msgid "In order to help us improve Metabase, we'd like to collect certain data about product usage."
+-msgstr "Para nos ajudar a melhorar a Metabase, gostaríamos de coletar alguns dados sobre o uso do produto."
++msgstr "Para nos ajudar a melhorar a Analytics, gostaríamos de coletar alguns dados sobre o uso do produto."
+ 
+ #: frontend/src/metabase/setup/components/DataUsageStep/DataUsageStep.tsx
+ msgid "Here's a full list of what we track and why."
+@@ -31007,12 +31007,12 @@ msgstr "Veja aqui uma lista completa do que rastreamos e por quê."
+ 
+ #: frontend/src/metabase/setup/components/DataUsageStep/DataUsageStep.tsx
+ msgid "Allow Metabase to anonymously collect usage events"
+-msgstr "Permitir que a Metabase colete eventos de uso anonimamente"
++msgstr "Permitir que a Analytics colete eventos de uso anonimamente"
+ 
+ #: frontend/src/metabase/setup/components/DataUsageStep/DataUsageStep.tsx
+ #, javascript-format
+ msgid "Metabase {0} collects anything about your data or question results."
+-msgstr "A Metabase {0} coleta informações sobre seus dados ou resultados de perguntas."
++msgstr "A Analytics {0} coleta informações sobre seus dados ou resultados de perguntas."
+ 
+ #: frontend/src/metabase/setup/components/DataUsageStep/DataUsageStep.tsx
+ msgid "never"
+@@ -31098,11 +31098,11 @@ msgstr "Qual é o seu idioma preferido?"
+ 
+ #: frontend/src/metabase/setup/components/LanguageStep/LanguageStep.tsx
+ msgid "This language will be used throughout Metabase and will be the default for new users."
+-msgstr "Esse idioma será usado em toda a Metabase e será o padrão para novos usuários."
++msgstr "Esse idioma será usado em toda a Analytics e será o padrão para novos usuários."
+ 
+ #: frontend/src/metabase/setup/components/LicenseTokenStep/LicenseTokenForm.tsx
+ msgid "Try Metabase for free"
+-msgstr "Experimente o Metabase gratuitamente"
++msgstr "Experimente o Analytics gratuitamente"
+ 
+ #: frontend/src/metabase/setup/components/LicenseTokenStep/LicenseTokenForm.tsx
+ msgid "Token"
+@@ -31118,7 +31118,7 @@ msgstr "Informações detalhadas do token"
+ 
+ #: frontend/src/metabase/setup/components/LicenseTokenStep/LicenseTokenForm.tsx
+ msgid "Find your license token in the subscription confirmation email from Metabase"
+-msgstr "Encontre seu token de licença no e-mail de confirmação de assinatura do Metabase"
++msgstr "Encontre seu token de licença no e-mail de confirmação de assinatura do Analytics"
+ 
+ #: frontend/src/metabase/setup/components/LicenseTokenStep/LicenseTokenForm.tsx
+ #, javascript-format
+@@ -31196,11 +31196,11 @@ msgstr "Ainda não tenho certeza"
+ 
+ #: frontend/src/metabase/setup/components/UsageQuestionStep/UsageQuestionStep.tsx
+ msgid "What will you use Metabase for?"
+-msgstr "Para que você usará o Metabase?"
++msgstr "Para que você usará o Analytics?"
+ 
+ #: frontend/src/metabase/setup/components/UsageQuestionStep/UsageQuestionStep.tsx
+ msgid "Let us know your plans with Metabase so that we can best guide you"
+-msgstr "Conte-nos seus planos com o Metabase para que possamos orientá-lo melhor"
++msgstr "Conte-nos seus planos com o Analytics para que possamos orientá-lo melhor"
+ 
+ #: frontend/src/metabase/setup/components/UsageQuestionStep/UsageQuestionStep.tsx
+ msgid "Self-service analytics for my own company"
+@@ -31245,7 +31245,7 @@ msgstr "Como devemos te chamar?"
+ 
+ #: frontend/src/metabase/setup/components/WelcomePage/WelcomePage.tsx
+ msgid "Welcome to Metabase"
+-msgstr "Esta é a Metabase"
++msgstr "Esta é a Analytics"
+ 
+ #: frontend/src/metabase/setup/components/WelcomePage/WelcomePage.tsx
+ msgid "Looks like everything is working."
+@@ -35424,11 +35424,11 @@ msgstr "Tentativa de configurar o servidor web de métricas do Prometheus sem ne
+ 
+ #: metabase/analytics/settings.clj
+ msgid "Unique identifier to be used in Snowplow analytics, to identify this instance of Metabase. This is a public setting since some analytics events are sent prior to initial setup."
+-msgstr "Identificador único a ser usado em análises do Snowplow para identificar esta instância do Metabase. Esta é uma configuração pública, pois alguns eventos de análise são enviados antes da configuração inicial."
++msgstr "Identificador único a ser usado em análises do Snowplow para identificar esta instância do Analytics. Esta é uma configuração pública, pois alguns eventos de análise são enviados antes da configuração inicial."
+ 
+ #: metabase/analytics/settings.clj
+ msgid "Enable the collection of anonymous usage data in order to help Metabase improve.."
+-msgstr "Habilite a coleta de dados de uso anônimos para ajudar o Metabase a melhorar.."
++msgstr "Habilite a coleta de dados de uso anônimos para ajudar o Analytics a melhorar.."
+ 
+ #: metabase/analytics/settings.clj
+ msgid "Boolean indicating whether a Snowplow collector is available to receive analytics events. Should be set via environment variable in Cypress tests or during local development."
+@@ -35452,7 +35452,7 @@ msgstr "O URL do coletor Snowplow para o qual enviar eventos de análise."
+ 
+ #: metabase/analytics/settings.clj
+ msgid "The approximate timestamp at which this instance of Metabase was created, for inclusion in analytics."
+-msgstr "O registro de data e hora aproximado em que esta instância do Metabase foi criada, para inclusão em análises."
++msgstr "O registro de data e hora aproximado em que esta instância do Analytics foi criada, para inclusão em análises."
+ 
+ #: metabase/analytics/settings.clj
+ msgid "Whether a non-table chart has already been generated. Required for analytics to track instance activation journey."
+@@ -35524,11 +35524,11 @@ msgstr "O banco de dados requer atualização manual."
+ 
+ #: metabase/app_db/setup.clj
+ msgid "Unable to connect to Metabase {0} DB."
+-msgstr "Não foi possível conectar ao banco de dados {0} do Metabase."
++msgstr "Não foi possível conectar ao banco de dados {0} do Analytics."
+ 
+ #: metabase/app_db/setup.clj
+ msgid "Metabase {0} DB version not supported (found {1}, required {2}). Please upgrade your database to a supported version and try again."
+-msgstr "Versão do BD {0} do Metabase não suportada (encontrada {1}, necessária {2}). Atualize seu banco de dados para uma versão suportada e tente novamente."
++msgstr "Versão do BD {0} do Analytics não suportada (encontrada {1}, necessária {2}). Atualize seu banco de dados para uma versão suportada e tente novamente."
+ 
+ #: metabase/app_db/setup.clj
+ msgid "ERROR: Downgrade detected."
+@@ -35536,7 +35536,7 @@ msgstr "ERRO: Downgrade detectado."
+ 
+ #: metabase/app_db/setup.clj
+ msgid "Your metabase instance appears to have been downgraded without a corresponding database downgrade."
+-msgstr "Parece que sua instância do Metabase foi rebaixada sem um rebaixamento de banco de dados correspondente."
++msgstr "Parece que sua instância do Analytics foi rebaixada sem um rebaixamento de banco de dados correspondente."
+ 
+ #: metabase/app_db/setup.clj
+ msgid "You must run `java --add-opens java.base/java.nio=ALL-UNNAMED -jar metabase.jar migrate down` from version {0}."
+@@ -35556,7 +35556,7 @@ msgstr "Configuração do banco de dados"
+ 
+ #: metabase/appearance/settings.clj
+ msgid "Replace the word “Metabase” wherever it appears."
+-msgstr "Substitua a palavra \"Metabase\" onde quer que ela apareça."
++msgstr "Substitua a palavra \"Analytics\" onde quer que ela apareça."
+ 
+ #: metabase/appearance/settings.clj
+ msgid "The name used for this instance of {0}."
+@@ -35588,7 +35588,7 @@ msgstr "Diga-nos onde encontrar o arquivo para cada espessura de fonte. Você n
+ 
+ #: metabase/appearance/settings.clj
+ msgid "Upload a file to replace the Metabase logo on the top bar."
+-msgstr "Faça o upload de um arquivo para substituir o logotipo do Metabase na barra superior."
++msgstr "Faça o upload de um arquivo para substituir o logotipo do Analytics na barra superior."
+ 
+ #: metabase/appearance/settings.clj
+ msgid "Upload a file to use as the favicon."
+@@ -35648,7 +35648,7 @@ msgstr "URL personalizado para o link de ajuda."
+ 
+ #: metabase/appearance/settings.clj
+ msgid "Whether or not to display Metabase links outside admin settings."
+-msgstr "Exibir ou não os links do Metabase fora das configurações administrativas."
++msgstr "Exibir ou não os links do Analytics fora das configurações administrativas."
+ 
+ #: metabase/appearance/settings.clj
+ msgid "Invalid number separators."
+@@ -35828,7 +35828,7 @@ msgstr "{0} foi corrigido automaticamente para {1}"
+ 
+ #: metabase/channel/email/messages.clj
+ msgid "Metabase"
+-msgstr "Metabase"
++msgstr "Analytics"
+ 
+ #: metabase/channel/email/messages.clj
+ msgid "[{0}] Two-factor authentication was enabled on your account"
+@@ -35872,7 +35872,7 @@ msgstr "[{0}] A atualização do cache do modelo falhou para {1}"
+ 
+ #: metabase/channel/email/messages.clj
+ msgid "We hope you''ve been enjoying Metabase."
+-msgstr "Esperamos que você esteja gostando do Metabase."
++msgstr "Esperamos que você esteja gostando do Analytics."
+ 
+ #: metabase/channel/email/messages.clj
+ msgid "Would you mind taking a quick 5 minute survey to tell us how it’s going?"
+@@ -35988,7 +35988,7 @@ msgstr "Não foi possível exibir este pulso."
+ 
+ #: metabase/channel/render/body.clj
+ msgid "Please view this card in Metabase."
+-msgstr "Visualize este cartão no Metabase."
++msgstr "Visualize este cartão no Analytics."
+ 
+ #: metabase/channel/render/body.clj
+ msgid "This chart exceeded the {0} size limit."
+@@ -36012,7 +36012,7 @@ msgstr "Resultados grandes demais para exibir."
+ 
+ #: metabase/channel/render/style.clj
+ msgid "Error registering fonts: Metabase will not be able to send Pulses."
+-msgstr "Erro ao registrar fontes: o Metabase não poderá enviar pulsos."
++msgstr "Erro ao registrar fontes: o Analytics não poderá enviar pulsos."
+ 
+ #: metabase/channel/render/style.clj
+ msgid "This is a known issue with certain JVMs. See {0} and for more details."
+@@ -36020,7 +36020,7 @@ msgstr "Esse é um problema conhecido em algumas JVMs. Veja {0} para mais detalh
+ 
+ #: metabase/channel/settings.clj
+ msgid "Bot user OAuth token for connecting the Metabase Slack app. This should be used for all new Slack integrations starting in Metabase v0.42.0."
+-msgstr "Token de OAuth para usuário de bot para conectar com o aplicativo Metabase Slack. Deve ser usado para todas as integrações com o Slack criadas a partir do Metabase v0.42.0."
++msgstr "Token de OAuth para usuário de bot para conectar com o aplicativo Analytics Slack. Deve ser usado para todas as integrações com o Slack criadas a partir do Analytics v0.42.0."
+ 
+ #: metabase/channel/settings.clj
+ msgid "Whether the current Slack app token, if set, is valid. Set to ''false'' if a Slack API request returns an auth error."
+@@ -36028,7 +36028,7 @@ msgstr "Se o token atual do aplicativo Slack, se definido, é válido. Defina co
+ 
+ #: metabase/channel/settings.clj
+ msgid "The name of the channel to which Metabase files should be initially uploaded"
+-msgstr "O nome do canal para o qual os arquivos do Metabase devem ser carregados inicialmente."
++msgstr "O nome do canal para o qual os arquivos do Analytics devem ser carregados inicialmente."
+ 
+ #: metabase/channel/settings.clj
+ msgid "The name of the channel where bug reports should be posted"
+@@ -36194,7 +36194,7 @@ msgstr "O canal é usado para armazenar relatórios de bugs."
+ 
+ #: metabase/cloud_migration/models/cloud_migration.clj
+ msgid "Metabase is in read-only-mode mode!"
+-msgstr "O Metabase está no modo somente leitura!"
++msgstr "O Analytics está no modo somente leitura!"
+ 
+ #: metabase/cloud_migration/settings.clj
+ msgid "If staging store should be used instead of prod. True on dev."
+@@ -36214,7 +36214,7 @@ msgstr "Versão de despejo personalizada para migrações."
+ 
+ #: metabase/cloud_migration/settings.clj
+ msgid "Boolean indicating whether a Metabase instance is in read-only mode with regards to its app db. Will take up to 1m to propagate to other Metabase instances in a cluster.Audit tables are excluded from read-only-mode mode."
+-msgstr "Booleano que indica se uma instância do Metabase está em modo somente leitura em relação ao seu banco de dados de aplicativos. Levará até 1 minuto para propagar para outras instâncias do Metabase em um cluster. As tabelas de auditoria são excluídas do modo somente leitura."
++msgstr "Booleano que indica se uma instância do Analytics está em modo somente leitura em relação ao seu banco de dados de aplicativos. Levará até 1 minuto para propagar para outras instâncias do Analytics em um cluster. As tabelas de auditoria são excluídas do modo somente leitura."
+ 
+ #: metabase/cmd/copy.clj
+ msgid "ERROR {0}: {1}"
+@@ -36642,7 +36642,7 @@ msgstr "Escolha quando sincronizações e varreduras acontecem"
+ 
+ #: metabase/driver/common.clj
+ msgid "By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values. If you have a large database, turn this on to make changes."
+-msgstr "Por padrão, o Metabase realiza uma sincronização leve de hora em hora e uma varredura diária intensiva dos valores dos campos. Se você tiver um banco de dados grande, ative esta opção para fazer alterações."
++msgstr "Por padrão, o Analytics realiza uma sincronização leve de hora em hora e uma varredura diária intensiva dos valores dos campos. Se você tiver um banco de dados grande, ative esta opção para fazer alterações."
+ 
+ #: metabase/driver/common.clj
+ msgid "Database syncing"
+@@ -36658,7 +36658,7 @@ msgstr "Procurando por valores de filtro"
+ 
+ #: metabase/driver/common.clj
+ msgid "Metabase can scan the values present in each field in this database to enable checkbox filters in dashboards and questions. This can be a somewhat resource-intensive process, particularly if you have a very large database. When should Metabase automatically scan and cache field values?"
+-msgstr "O Metabase pode varrer os valores presentes em cada campo deste banco de dados para habilitar filtros de caixa de seleção em painéis e perguntas. Este processo pode consumir muitos recursos, principalmente se você tiver um banco de dados muito grande. Quando o Metabase deve varrer e armazenar em cache automaticamente os valores dos campos?"
++msgstr "O Analytics pode varrer os valores presentes em cada campo deste banco de dados para habilitar filtros de caixa de seleção em painéis e perguntas. Este processo pode consumir muitos recursos, principalmente se você tiver um banco de dados muito grande. Quando o Analytics deve varrer e armazenar em cache automaticamente os valores dos campos?"
+ 
+ #: metabase/driver/common.clj
+ msgid "Allow unfolding of JSON columns"
+@@ -36674,11 +36674,11 @@ msgstr "Refazer fingerprint das tabelas periodicamente"
+ 
+ #: metabase/driver/common.clj
+ msgid "This enables Metabase to scan for additional field values during syncs allowing smarter behavior, like improved auto-binning on your bar charts."
+-msgstr "Isso permite que o Metabase procure valores de campos adicionais durante as sincronizações, permitindo um comportamento mais inteligente, como melhor agrupamento automático em seus gráficos de barras."
++msgstr "Isso permite que o Analytics procure valores de campos adicionais durante as sincronizações, permitindo um comportamento mais inteligente, como melhor agrupamento automático em seus gráficos de barras."
+ 
+ #: metabase/driver/common.clj
+ msgid "If your database is behind a firewall, you may need to allow connections from our Metabase [Cloud IP addresses](https://www.metabase.com/cloud/docs/ip-addresses-to-whitelist.html):"
+-msgstr "Se seu banco de dados estiver atrás de um firewall, talvez seja necessário permitir conexões dos nossos [endereços IP da nuvem] do Metabase (https://www.metabase.com/cloud/docs/ip-addresses-to-whitelist.html):"
++msgstr "Se seu banco de dados estiver atrás de um firewall, talvez seja necessário permitir conexões dos nossos [endereços IP da nuvem] do Analytics (https://www.metabase.com/cloud/docs/ip-addresses-to-whitelist.html):"
+ 
+ #: metabase/driver/common.clj
+ msgid "Azure Managed Identity"
+@@ -36726,7 +36726,7 @@ msgstr "Sequência de conexão"
+ 
+ #: metabase/driver/h2.clj
+ msgid "The local path relative to where Metabase is running from. Your string should not include the .mv.db extension."
+-msgstr "O caminho local relativo a onde o Metabase está sendo executado. Sua sequência não deve incluir a extensão .mv.db."
++msgstr "O caminho local relativo a onde o Analytics está sendo executado. Sua sequência não deve incluir a extensão .mv.db."
+ 
+ #: metabase/driver/h2.clj
+ msgid "Users/camsaul/bird_sightings/toucans"
+@@ -37041,7 +37041,7 @@ msgid "Controls which networks Metabase may connect to for warehouse connections
+ "- allow-all (no restrictions).\n"
+ "Defaults to external-only on Metabase Cloud and allow-all when self-hosted.\n"
+ "Also covers the SSH tunnel host and the database auth-provider URLs."
+-msgstr "Controla a quais redes o Metabase pode se conectar para conexões com data warehouse.\n"
++msgstr "Controla a quais redes o Analytics pode se conectar para conexões com data warehouse.\n"
+ "Opções:\n"
+ "- external-only (apenas endereços públicos globalmente roteáveis)\n"
+ "- allow-private (externas + redes privadas, mas NÃO loopback ou link-local)\n"
+@@ -37383,7 +37383,7 @@ msgstr "Todos exceto…"
+ 
+ #: metabase/driver/util.clj
+ msgid "Comma separated names of {0} that should appear in Metabase"
+-msgstr "Nomes separados por vírgulas de {0} que devem aparecer no Metabase"
++msgstr "Nomes separados por vírgulas de {0} que devem aparecer no Analytics"
+ 
+ #: metabase/driver/util.clj
+ msgid "You can use patterns like \"auth*\" to match multiple {0}"
+@@ -37391,7 +37391,7 @@ msgstr "Você pode usar padrões como \"auth*\" para corresponder a vários {0}"
+ 
+ #: metabase/driver/util.clj
+ msgid "Comma separated names of {0} that should NOT appear in Metabase"
+-msgstr "Nomes separados por vírgulas de {0} que NÃO devem aparecer no Metabase"
++msgstr "Nomes separados por vírgulas de {0} que NÃO devem aparecer no Analytics"
+ 
+ #: metabase/driver/util.clj
+ msgid "Cycle detected resolving dependent visible-if properties for driver {0}: {1}"
+@@ -37447,31 +37447,31 @@ msgstr "Permitir que administradores incorporem com segurança perguntas e pain
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow this origin to embed the full Metabase application."
+-msgstr "Permitir que essa origem incorpore o aplicativo Metabase completo."
++msgstr "Permitir que essa origem incorpore o aplicativo Analytics completo."
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow admins to embed Metabase via the SDK?"
+-msgstr "Permitir que administradores incorporem o Metabase por meio do SDK?"
++msgstr "Permitir que administradores incorporem o Analytics por meio do SDK?"
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow admins to embed Metabase via modular embedding?"
+-msgstr "Permitir que administradores incorporem o Metabase via incorporação modular?"
++msgstr "Permitir que administradores incorporem o Analytics via incorporação modular?"
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow admins to embed Metabase via interactive embedding?"
+-msgstr "Permitir que administradores incorporem o Metabase por meio de incorporação interativa?"
++msgstr "Permitir que administradores incorporem o Analytics por meio de incorporação interativa?"
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow these space delimited origins to embed Metabase interactive."
+-msgstr "Permitir que essas origens delimitadas por espaço incorporem o Metabase interativo."
++msgstr "Permitir que essas origens delimitadas por espaço incorporem o Analytics interativo."
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow admins to embed Metabase via static embedding?"
+-msgstr "Permitir que administradores incorporem o Metabase por meio de incorporação estática?"
++msgstr "Permitir que administradores incorporem o Analytics por meio de incorporação estática?"
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Allow Metabase SDK access to these space delimited origins."
+-msgstr "Permitir que o Metabase SDK acesse essas origens delimitadas por espaço."
++msgstr "Permitir que o Analytics SDK acesse essas origens delimitadas por espaço."
+ 
+ #: metabase/embedding/settings.clj
+ msgid "Embedding homepage status, indicating if it''s visible, hidden or has been dismissed"
+@@ -37644,7 +37644,7 @@ msgstr "(Filtrado)"
+ 
+ #: metabase/explorations/settings.clj
+ msgid "How many exploration queries a single Metabase node runs at once."
+-msgstr "Quantas consultas de exploração um único nó do Metabase executa ao mesmo tempo."
++msgstr "Quantas consultas de exploração um único nó do Analytics executa ao mesmo tempo."
+ 
+ #: metabase/geojson/api.clj
+ msgid "GeoJSON URL failed to load"
+@@ -39092,11 +39092,11 @@ msgstr "O provedor {0} já está conectado."
+ 
+ #: metabase/llm/api/provider.clj
+ msgid "Another connection holds the {0} key. Remove it before connecting the Metabase AI service."
+-msgstr "Outra conexão possui a chave {0}. Remova-a antes de conectar o serviço de IA do Metabase."
++msgstr "Outra conexão possui a chave {0}. Remova-a antes de conectar o serviço de IA do Analytics."
+ 
+ #: metabase/llm/api/provider.clj
+ msgid "The {0} connection key is reserved for the Metabase AI service."
+-msgstr "A chave de conexão {0} está reservada para o serviço de IA do Metabase."
++msgstr "A chave de conexão {0} está reservada para o serviço de IA do Analytics."
+ 
+ #: metabase/llm/provider.clj
+ msgid "Anthropic"
+@@ -39288,7 +39288,7 @@ msgstr "Necessário apenas se você iniciou seu servidor com --api-key."
+ 
+ #: metabase/llm/provider.clj
+ msgid "Metabase AI service"
+-msgstr "Serviço de IA do Metabase"
++msgstr "Serviço de IA do Analytics"
+ 
+ #: metabase/llm/provider.clj
+ msgid "{0} is required for {1}."
+@@ -39404,11 +39404,11 @@ msgstr "A URL base da API da Gemini Enterprise Agent Platform. Deixe sem definir
+ 
+ #: metabase/llm/settings.clj
+ msgid "The AWS Access Key ID for Amazon Bedrock. On a self-hosted Metabase, leave unset together with the secret access key to authenticate with the AWS default credentials chain (IRSA, EKS Pod Identity, or instance profile); on Metabase Cloud both keys are required."
+-msgstr "O AWS Access Key ID do Amazon Bedrock. Em um Metabase auto-hospedado, deixe sem definir junto com o secret access key para autenticar com a cadeia padrão de credenciais da AWS (IRSA, EKS Pod Identity ou instance profile); no Metabase Cloud, ambas as chaves são obrigatórias."
++msgstr "O AWS Access Key ID do Amazon Bedrock. Em um Analytics auto-hospedado, deixe sem definir junto com o secret access key para autenticar com a cadeia padrão de credenciais da AWS (IRSA, EKS Pod Identity ou instance profile); no Metabase Cloud, ambas as chaves são obrigatórias."
+ 
+ #: metabase/llm/settings.clj
+ msgid "The AWS Secret Access Key for Amazon Bedrock. On a self-hosted Metabase, leave unset together with the access key ID to authenticate with the AWS default credentials chain (IRSA, EKS Pod Identity, or instance profile); on Metabase Cloud both keys are required."
+-msgstr "O AWS Secret Access Key do Amazon Bedrock. Em um Metabase auto-hospedado, deixe sem definir junto com o access key ID para autenticar com a cadeia padrão de credenciais da AWS (IRSA, EKS Pod Identity ou instance profile); no Metabase Cloud, ambas as chaves são obrigatórias."
++msgstr "O AWS Secret Access Key do Amazon Bedrock. Em um Analytics auto-hospedado, deixe sem definir junto com o access key ID para autenticar com a cadeia padrão de credenciais da AWS (IRSA, EKS Pod Identity ou instance profile); no Metabase Cloud, ambas as chaves são obrigatórias."
+ 
+ #: metabase/llm/settings.clj
+ msgid "The AWS Session Token for Amazon Bedrock. Only needed for temporary credentials."
+@@ -39452,15 +39452,15 @@ msgstr "Array JSON de conexões de provedor LLM configuradas. Cada entrada tem u
+ 
+ #: metabase/llm/settings.clj
+ msgid "Base URL for the LLM proxy. When set, requests to the managed Metabase AI service are routed through this proxy and authenticated with the instance token instead of a provider API key. Harbormaster adds /llm component into the url."
+-msgstr "URL base para o proxy de LLM. Quando definida, as solicitações para o serviço gerenciado de IA do Metabase são roteadas por esse proxy e autenticadas com o token da instância em vez de uma chave de API do provedor. O Harbormaster adiciona o componente /llm à url."
++msgstr "URL base para o proxy de LLM. Quando definida, as solicitações para o serviço gerenciado de IA do Analytics são roteadas por esse proxy e autenticadas com o token da instância em vez de uma chave de API do provedor. O Harbormaster adiciona o componente /llm à url."
+ 
+ #: metabase/llm/settings.clj
+ msgid "Base URL for the managed Metabase AI service."
+-msgstr "URL base do serviço de IA gerenciado do Metabase."
++msgstr "URL base do serviço de IA gerenciado do Analytics."
+ 
+ #: metabase/llm/settings.clj
+ msgid "Whether the LLM proxy is configured for the managed Metabase AI service."
+-msgstr "Se o proxy de LLM está configurado para o serviço gerenciado de IA do Metabase."
++msgstr "Se o proxy de LLM está configurado para o serviço gerenciado de IA do Analytics."
+ 
+ #: metabase/llm/settings.clj
+ msgid "Whether AI features are enabled."
+@@ -39619,11 +39619,11 @@ msgstr "Executar consultas"
+ 
+ #: metabase/metabot/scope.clj
+ msgid "See your Metabase content and data structure"
+-msgstr "Ver seu conteúdo do Metabase e a estrutura de dados"
++msgstr "Ver seu conteúdo do Analytics e a estrutura de dados"
+ 
+ #: metabase/metabot/scope.clj
+ msgid "Create, edit and trash Metabase content"
+-msgstr "Criar, editar e mover para a lixeira conteúdo do Metabase"
++msgstr "Criar, editar e mover para a lixeira conteúdo do Analytics"
+ 
+ #: metabase/metabot/scope.clj
+ msgid "Run queries against your connected databases and see the results"
+@@ -39799,11 +39799,11 @@ msgstr "Erro de API do Azure (HTTP {0})"
+ 
+ #: metabase/metabot/self/bedrock.clj
+ msgid "AWS Bedrock got no credentials from the AWS default credentials chain. See the Metabase logs for what each provider reported."
+-msgstr "O AWS Bedrock não obteve credenciais da cadeia padrão de credenciais da AWS. Veja os logs do Metabase para saber o que cada provedor reportou."
++msgstr "O AWS Bedrock não obteve credenciais da cadeia padrão de credenciais da AWS. Veja os logs do Analytics para saber o que cada provedor reportou."
+ 
+ #: metabase/metabot/self/bedrock.clj
+ msgid "AWS Bedrock could not refresh its AWS credentials. See the Metabase logs for what AWS reported."
+-msgstr "O AWS Bedrock não conseguiu atualizar suas credenciais da AWS. Veja os logs do Metabase para saber o que a AWS reportou."
++msgstr "O AWS Bedrock não conseguiu atualizar suas credenciais da AWS. Veja os logs do Analytics para saber o que a AWS reportou."
+ 
+ #: metabase/metabot/self/bedrock.clj
+ msgid "Invalid AWS Bedrock region {0}"
+@@ -40303,7 +40303,7 @@ msgstr "Se o Metabot está ativado para uso regular."
+ 
+ #: metabase/metabot/settings.clj
+ msgid "The display name for Metabot, shown throughout the Metabase UI."
+-msgstr "O nome de exibição do Metabot, mostrado em toda a interface do Metabase."
++msgstr "O nome de exibição do Metabot, mostrado em toda a interface do Analytics."
+ 
+ #: metabase/metabot/settings.clj
+ msgid "The icon for Metabot. Set to `metabot` for the default icon, or a data URI for a custom uploaded image (up to 1MB)."
+@@ -40343,7 +40343,7 @@ msgstr "Modelo do Google inválido {0}. Formato esperado: <connection>/<publishe
+ 
+ #: metabase/metabot/settings.clj
+ msgid "Unsupported model {0} for Metabase managed AI. Supported models: {1}"
+-msgstr "Modelo {0} sem suporte para a IA gerenciada pelo Metabase. Modelos compatíveis: {1}"
++msgstr "Modelo {0} sem suporte para a IA gerenciada pelo Analytics. Modelos compatíveis: {1}"
+ 
+ #: metabase/metabot/settings.clj
+ msgid "Metabot provider must be a string, got: {0}"
+@@ -40579,7 +40579,7 @@ msgstr "Estratégia de humanização inválida ''{0}''. As estratégias válidas
+ 
+ #: metabase/models/humanization.clj
+ msgid "To make table and field names more human-friendly, Metabase will replace dashes and underscores in them with spaces. We’ll capitalize each word while at it, so ‘last_visited_at’ will become ‘Last Visited At’."
+-msgstr "Para tornar os nomes de tabelas e campos mais amigáveis, o Metabase substituirá traços e sublinhados por espaços. Colocaremos cada palavra em maiúscula, então \"last_visited_at\" se tornará \"Última Visita em\"."
++msgstr "Para tornar os nomes de tabelas e campos mais amigáveis, o Analytics substituirá traços e sublinhados por espaços. Colocaremos cada palavra em maiúscula, então \"last_visited_at\" se tornará \"Última Visita em\"."
+ 
+ #: metabase/models/serialization/resolve/mp.clj
+ msgid "No table found matching portable FK {0}."
+@@ -40743,7 +40743,7 @@ msgstr "O canal para o qual esta notificação está configurada para enviar nã
+ 
+ #: metabase/oauth_server/scopes.clj
+ msgid "Full access to Metabase as your user account"
+-msgstr "Acesso total ao Metabase como sua conta de usuário"
++msgstr "Acesso total ao Analytics como sua conta de usuário"
+ 
+ #: metabase/oauth_server/settings.clj
+ msgid "Access token time-to-live in seconds for the embedded OAuth server."
+@@ -41017,7 +41017,7 @@ msgstr "Totais para {0}"
+ 
+ #: metabase/plugins/dependencies.clj
+ msgid "Metabase cannot initialize plugin {0} due to required dependencies."
+-msgstr "O Metabase não pode inicializar o plugin {0} devido a dependências necessárias."
++msgstr "O Analytics não pode inicializar o plugin {0} devido a dependências necessárias."
+ 
+ #: metabase/plugins/dependencies.clj
+ msgid "Class not found: {0}"
+@@ -41041,11 +41041,11 @@ msgstr "Plugins com dependências não satisfeitas: {0}"
+ 
+ #: metabase/plugins/impl.clj
+ msgid "Metabase does not have permissions to write to plugins directory {0}"
+-msgstr "O Metabase não tem permissões para gravar no diretório de plugins {0}"
++msgstr "O Analytics não tem permissões para gravar no diretório de plugins {0}"
+ 
+ #: metabase/plugins/impl.clj
+ msgid "Metabase cannot write to temporary directory. Please set MB_PLUGINS_DIR to a writable directory and restart Metabase."
+-msgstr "O Metabase não pode gravar no diretório temporário. Defina MB_PLUGINS_DIR como um diretório gravável e reinicie o Metabase."
++msgstr "O Analytics não pode gravar no diretório temporário. Defina MB_PLUGINS_DIR como um diretório gravável e reinicie o Analytics."
+ 
+ #: metabase/plugins/lazy_loaded_driver.clj
+ msgid "Default connection property {0} does not exist."
+@@ -41629,7 +41629,7 @@ msgstr "Identifique a origem das solicitações HTTP pelo valor deste cabeçalho
+ 
+ #: metabase/request/settings.clj
+ msgid "Indicates whether Metabase is running behind a proxy that sets the source-address-header for incoming requests."
+-msgstr "Indica se o Metabase está sendo executado por trás de um proxy que define o cabeçalho source-address-header para solicitações de entrada."
++msgstr "Indica se o Analytics está sendo executado por trás de um proxy que define o cabeçalho source-address-header para solicitações de entrada."
+ 
+ #: metabase/request/settings.clj
+ msgid "Invalid value for session cookie samesite"
+@@ -41933,7 +41933,7 @@ msgstr "Ao usar o mecanismo appdb com postgresql, substitui o idioma usado para
+ 
+ #: metabase/secrets/models/secret.clj
+ msgid "{0} (a local file path) cannot be used in Metabase hosted environment"
+-msgstr "{0} (um caminho de arquivo local) não pode ser usado em um ambiente hospedado no Metabase"
++msgstr "{0} (um caminho de arquivo local) não pode ser usado em um ambiente hospedado no Analytics"
+ 
+ #: metabase/secrets/models/secret.clj
+ msgid "File path for {0}"
+@@ -41961,7 +41961,7 @@ msgstr "uma definição de segmento deve ser uma consulta de estágio único com
+ 
+ #: metabase/server/routes/index.clj
+ msgid "Failed to load template ''{0}''. Did you remember to build the Metabase frontend?"
+-msgstr "Falha ao carregar o modelo \"{0}\". Você se lembrou de compilar o frontend do Metabase?"
++msgstr "Falha ao carregar o modelo \"{0}\". Você se lembrou de compilar o frontend do Analytics?"
+ 
+ #: metabase/server/settings.clj
+ msgid "Allowed iframe hosts. Includes a list of popular hosts by default; set to '' '' to disable the default list."
+@@ -41969,11 +41969,11 @@ msgstr "Hosts de iframe permitidos. Inclui uma lista de hosts populares por padr
+ 
+ #: metabase/server/settings.clj
+ msgid "Comma-separated list of hosts that images may load from (e.g. in dashboard text, entity descriptions, and custom visualizations) when `csp-img-enabled` is on. Empty by default, which restricts images to this Metabase instance and the map tile server used by map visualizations."
+-msgstr "Lista de hosts separados por vírgula de onde as imagens podem ser carregadas (por exemplo, em texto do dashboard, descrições de entidades e visualizações personalizadas) quando `csp-img-enabled` estiver ativado. Vazio por padrão, o que restringe as imagens a esta instância do Metabase e ao servidor de tiles de mapa usado pelas visualizações de mapa."
++msgstr "Lista de hosts separados por vírgula de onde as imagens podem ser carregadas (por exemplo, em texto do dashboard, descrições de entidades e visualizações personalizadas) quando `csp-img-enabled` estiver ativado. Vazio por padrão, o que restringe as imagens a esta instância do Analytics e ao servidor de tiles de mapa usado pelas visualizações de mapa."
+ 
+ #: metabase/server/settings.clj
+ msgid "Restrict the browser Content Security Policy so images can only load from this Metabase instance or the hosts listed in `csp-img-allowed-hosts`. Must be on to enable Custom Visualizations."
+-msgstr "Restrinja a Content Security Policy do navegador para que imagens só possam carregar a partir desta instância do Metabase ou dos hosts listados em `csp-img-allowed-hosts`. Deve estar ativado para habilitar Visualizações Personalizadas."
++msgstr "Restrinja a Content Security Policy do navegador para que imagens só possam carregar a partir desta instância do Analytics ou dos hosts listados em `csp-img-allowed-hosts`. Deve estar ativado para habilitar Visualizações Personalizadas."
+ 
+ #: metabase/server/settings.clj
+ msgid "Cannot disable the image CSP setting while Custom Visualizations are enabled."
+@@ -42153,7 +42153,7 @@ msgstr "Definição {0} inválida para configuração: {1}"
+ 
+ #: metabase/setup/settings.clj
+ msgid "A value that is true iff the metabase instance has one or more users registered."
+-msgstr "Um valor que é verdadeiro se a instância do Metabase tiver um ou mais usuários registrados."
++msgstr "Um valor que é verdadeiro se a instância do Analytics tiver um ou mais usuários registrados."
+ 
+ #: metabase/setup/settings.clj
+ msgid "Cannot set `has-user-setup`."
+@@ -42209,7 +42209,7 @@ msgstr "Token de login do Google inválido."
+ 
+ #: metabase/sso/google.clj
+ msgid "Google Sign-In token appears to be incorrect. Double check that it matches in Google and Metabase."
+-msgstr "O token de login do Google parece estar incorreto. Verifique novamente se ele corresponde ao Google e ao Metabase."
++msgstr "O token de login do Google parece estar incorreto. Verifique novamente se ele corresponde ao Google e ao Analytics."
+ 
+ #: metabase/sso/google.clj
+ msgid "Email is not verified."
+@@ -42250,11 +42250,11 @@ msgstr "O parâmetro state não corresponde - possível ataque de CSRF"
+ 
+ #: metabase/sso/providers/google.clj
+ msgid "You''ll need an administrator to create a Metabase account before you can use Google to log in."
+-msgstr "Você precisará que um administrador crie uma conta do Metabase antes de poder usar o Google para fazer login."
++msgstr "Você precisará que um administrador crie uma conta do Analytics antes de poder usar o Google para fazer login."
+ 
+ #: metabase/sso/providers/slack_connect.clj
+ msgid "Sorry, but you''ll need a Metabase account to view this page. Please contact your administrator."
+-msgstr "Desculpe, mas você precisa de uma conta do Metabase para ver esta página. Entre em contato com seu administrador."
++msgstr "Desculpe, mas você precisa de uma conta do Analytics para ver esta página. Entre em contato com seu administrador."
+ 
+ #: metabase/sso/providers/slack_connect.clj
+ #: metabase_enterprise/sso/integrations/sso_utils.clj
+@@ -42327,7 +42327,7 @@ msgstr "Base de pesquisa para grupos. Não é necessária para diretórios LDAP
+ 
+ #: metabase/sso/settings.clj
+ msgid "JSON containing LDAP to Metabase group mappings."
+-msgstr "JSON contendo mapeamentos de grupos LDAP para o Metabase."
++msgstr "JSON contendo mapeamentos de grupos LDAP para o Analytics."
+ 
+ #: metabase/sso/settings.clj
+ msgid "{0} is not a valid DN."
+@@ -42367,7 +42367,7 @@ msgstr "Modo de autenticação inválido. Deve ser \"sso\" ou \"link-only\""
+ 
+ #: metabase/sso/settings.clj
+ msgid "When a user logs in via Slack Connect, create a Metabase account for them automatically if they don''t have one."
+-msgstr "Quando um usuário faz login via Slack Connect, crie automaticamente uma conta no Metabase para ele se ele ainda não tiver uma."
++msgstr "Quando um usuário faz login via Slack Connect, crie automaticamente uma conta no Analytics para ele se ele ainda não tiver uma."
+ 
+ #: metabase/sso/settings.clj
+ msgid "Slack OIDC claim for the team/workspace ID"
+@@ -42832,7 +42832,7 @@ msgstr "Tipo de usuário inválido: {0}"
+ 
+ #: metabase/users/models/user.clj
+ msgid "Metabase instance has not been initialized"
+-msgstr "A instância do Metabase não foi inicializada"
++msgstr "A instância do Analytics não foi inicializada"
+ 
+ #: metabase/users/schema.clj
+ msgid "login attribute keys must be a keyword or string"
+@@ -43128,7 +43128,7 @@ msgstr "<< SEGREDO OCULTADO >>"
+ 
+ #: metabase/version/settings.clj
+ msgid "Identify when new versions of Metabase are available."
+-msgstr "Identificar quando novas versões do Metabase estão disponíveis."
++msgstr "Identificar quando novas versões do Analytics estão disponíveis."
+ 
+ #: metabase/version/settings.clj
+ msgid "Threshold (value in 0-100) indicating at which threshold it should offer an upgrade to the latest major version."
+@@ -43136,15 +43136,15 @@ msgstr "Limite (valor de 0 a 100) que indica a partir de qual limite deve ser of
+ 
+ #: metabase/version/settings.clj
+ msgid "Information about available versions of Metabase."
+-msgstr "Informações sobre versões disponíveis do Metabase."
++msgstr "Informações sobre versões disponíveis do Analytics."
+ 
+ #: metabase/version/settings.clj
+ msgid "Indicates when Metabase last checked for new versions."
+-msgstr "Indica quando foi a última vez que o Metabase verificou se há novas versões."
++msgstr "Indica quando foi a última vez que o Analytics verificou se há novas versões."
+ 
+ #: metabase/version/settings.clj
+ msgid "Metabase version for which a notice about usage of deprecated features has been shown."
+-msgstr "A versão do Metabase para a qual foi exibido um aviso de uso de recursos obsoletos."
++msgstr "A versão do Analytics para a qual foi exibido um aviso de uso de recursos obsoletos."
+ 
+ #: metabase/warehouse_schema/models/field.clj
+ msgid "Invalid value for Field column {0}: {1} is not a descendant of any of these types: {2}"
+@@ -43217,7 +43217,7 @@ msgstr "O banco de dados não oferece suporte à edição de tabelas."
+ 
+ #: metabase/warehouses/settings.clj
+ msgid "When true, suppresses automatically-triggered syncs: the scheduled sync-and-analyze and update-field-values jobs do not run (and new triggers are not registered), and adding a new database does not kick off an initial sync. Syncs originating from an explicit request — the Sync-now REST endpoints, or a transform finalizing its output table — are unaffected. For deployments that load database metadata from disk at startup and should not have Metabase re-discover it."
+-msgstr "Quando true, suprime as sincronizações disparadas automaticamente: os jobs agendados de sync-and-analyze e update-field-values não são executados (e novos triggers não são registrados), e adicionar um novo banco de dados não inicia uma sincronização inicial. As sincronizações originadas de uma solicitação explícita — os endpoints REST de Sync-now, ou uma transformação finalizando sua tabela de saída — não são afetadas. Para implantações que carregam metadados do banco de dados do disco na inicialização e não devem fazer com que o Metabase os redescubra."
++msgstr "Quando true, suprime as sincronizações disparadas automaticamente: os jobs agendados de sync-and-analyze e update-field-values não são executados (e novos triggers não são registrados), e adicionar um novo banco de dados não inicia uma sincronização inicial. As sincronizações originadas de uma solicitação explícita — os endpoints REST de Sync-now, ou uma transformação finalizando sua tabela de saída — não são afetadas. Para implantações que carregam metadados do banco de dados do disco na inicialização e não devem fazer com que o Analytics os redescubra."
+ 
+ #: metabase/warehouses/settings.clj
+ msgid "Metabase Cloud gateway IP addresses, to configure connections to DBs behind firewalls"
+@@ -43545,7 +43545,7 @@ msgstr "Erro ao analisar a sequência do modelo {0}: {1}"
+ 
+ #: metabase_enterprise/advanced_config/file.clj
+ msgid "Metabase config files require a Premium token with the :config-text-file feature."
+-msgstr "Os arquivos de configuração do Metabase exigem um token Premium com o recurso :config-text-file."
++msgstr "Os arquivos de configuração do Analytics exigem um token Premium com o recurso :config-text-file."
+ 
+ #: metabase_enterprise/advanced_config/models/notification.clj
+ msgid "The following email addresses are not allowed: {0}"
+@@ -44384,15 +44384,15 @@ msgstr "Configuração SAML inválida: não foi possível encontrar o email do u
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "Determines what happens when a user logs in via SAML and doesn''t have a Metabase account."
+-msgstr "Determina o que acontece quando um usuário faz login via SAML e não tem uma conta no Metabase."
++msgstr "Determina o que acontece quando um usuário faz login via SAML e não tem uma conta no Analytics."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "Determines what happens when a user logs in via JWT and doesn''t have a Metabase account."
+-msgstr "Determina o que acontece quando um usuário faz login via JWT e não tem uma conta no Metabase."
++msgstr "Determina o que acontece quando um usuário faz login via JWT e não tem uma conta no Analytics."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "Determines what happens when a user logs in via LDAP and doesn''t have a Metabase account."
+-msgstr "Determina o que acontece quando um usuário faz login via LDAP e não tem uma conta no Metabase."
++msgstr "Determina o que acontece quando um usuário faz login via LDAP e não tem uma conta no Analytics."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "This is the URL where your users go to log in to your identity provider. Depending on which IdP you''re\n"
+@@ -44467,11 +44467,11 @@ msgstr "A autenticação SAML foi configurada e habilitada?"
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "If enabled, Metabase will redirect users to your configured SAML Single Logout endpoint when they log out of Metabase."
+-msgstr "Se ativado, o Metabase vai redirecionar os usuários para o endpoint de Logout único do SAML configurado quando eles fizerem logout do Metabase."
++msgstr "Se ativado, o Analytics vai redirecionar os usuários para o endpoint de Logout único do SAML configurado quando eles fizerem logout do Analytics."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "If SAML single logout (SLO) is enabled, Metabase will make an HTTP-Redirect SLO request to this endpoint when a user logs out of Metabase."
+-msgstr "Se o logout único do SAML (SLO) estiver ativado, o Metabase fará uma solicitação SLO via HTTP-Redirect para este endpoint quando um usuário fizer logout do Metabase."
++msgstr "Se o logout único do SAML (SLO) estiver ativado, o Analytics fará uma solicitação SLO via HTTP-Redirect para este endpoint quando um usuário fizer logout do Analytics."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "URL for JWT-based login page."
+@@ -44563,7 +44563,7 @@ msgstr "Lista pública de provedores OIDC ativados para a página de login."
+ 
+ #: metabase_enterprise/sso/settings.clj
+ msgid "Determines what happens when a user logs in via OIDC and doesn''t have a Metabase account."
+-msgstr "Determina o que acontece quando um usuário faz login via OIDC e não tem uma conta no Metabase."
++msgstr "Determina o que acontece quando um usuário faz login via OIDC e não tem uma conta no Analytics."
+ 
+ #: metabase_enterprise/stale/settings.clj
+ msgid "Was the collection cleanup banner dismissed?"
+diff --git a/resources/frontend_client/app/assets/img/site.webmanifest b/resources/frontend_client/app/assets/img/site.webmanifest
+index 56ac9279..14bb4f64 100644
+--- a/resources/frontend_client/app/assets/img/site.webmanifest
++++ b/resources/frontend_client/app/assets/img/site.webmanifest
+@@ -1,19 +1,19 @@
+ {
+-    "name": "Metabase",
+-    "short_name": "Metabase",
++    "name": "Analytics",
++    "short_name": "Analytics",
+     "icons": [
+         {
+-            "src": "/app/assets/img/android-chrome-192x192.png",
++            "src": "/app/assets/img/brazuca/icon-192.png",
+             "sizes": "192x192",
+             "type": "image/png"
+         },
+         {
+-            "src": "/app/assets/img/android-chrome-256x256.png",
++            "src": "/app/assets/img/brazuca/icon-256.png",
+             "sizes": "256x256",
+             "type": "image/png"
+         }
+     ],
+-    "theme_color": "#ffffff",
++    "theme_color": "#101C33",
+     "background_color": "#ffffff",
+     "display": "standalone"
+ }
+diff --git a/resources/frontend_client/index_template.html b/resources/frontend_client/index_template.html
+index 65bf1c84..7b0d04a1 100644
+--- a/resources/frontend_client/index_template.html
++++ b/resources/frontend_client/index_template.html
+@@ -7,10 +7,10 @@
+     <meta name="robots" content="noindex" />
+     <meta name="mobile-web-app-capable" content="yes" />
+     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+-    <link rel="apple-touch-icon" sizes="180x180" href="app/assets/img/apple-touch-icon.png">
++    <link rel="apple-touch-icon" sizes="180x180" href="app/assets/img/brazuca/apple-touch-icon.png">
+     <link rel="icon" href="{{{favicon}}}" />
+     <link rel="manifest" crossorigin="use-credentials" href="app/assets/img/site.webmanifest">
+-    <meta name="msapplication-TileColor" content="#2d89ef">
++    <meta name="msapplication-TileColor" content="#101C33">
+     <meta name="msapplication-config" content="app/assets/img/browserconfig.xml">
+     <meta name="theme-color" content="#ffffff">
+     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+diff --git a/resources/frontend_client/init.html b/resources/frontend_client/init.html
+index ff9956e4..e5e9685a 100644
+--- a/resources/frontend_client/init.html
++++ b/resources/frontend_client/init.html
+@@ -2,7 +2,7 @@
+ <html>
+   <head>
+     <meta charset="utf-8">
+-    <title>Metabase</title>
++    <title>Analytics</title>
+     <link rel="stylesheet" href="app/instance-loading-page/styles.css">
+     <link rel="preload" as="image" href="app/instance-loading-page/img/2.png">
+     <link rel="preload" as="image" href="app/instance-loading-page/img/3.png">
+@@ -11,7 +11,7 @@
+ 
+   <body>
+     <img src="app/instance-loading-page/img/no-sql-required.png" id="animation" class="animation" />
+-    <p id="heading" class="heading">Make decisions with data — no SQL required</p>
++    <p id="heading" class="heading">Analytics · Brazuca Informática</p>
+ 
+     <div class="spinner"></div>
+ 
+diff --git a/src/metabase/appearance/settings.clj b/src/metabase/appearance/settings.clj
+index 995396c9..51838a38 100644
+--- a/src/metabase/appearance/settings.clj
++++ b/src/metabase/appearance/settings.clj
+@@ -21,13 +21,13 @@
+   :type       :string
+   :audit      :getter
+   :feature    :whitelabel
+-  :default    "Metabase")
++  :default    "Analytics")
+ 
+ (defsetting site-name
+   (deferred-tru "The name used for this instance of {0}."
+                 (setting/application-name-for-setting-descriptions application-name))
+   :encryption :no
+-  :default    "Metabase"
++  :default    "Analytics"
+   :audit      :getter
+   :visibility :settings-manager
+   :export?    true)
+@@ -139,7 +139,7 @@ To change the chart colors:
+   :visibility :public
+   :export?    true
+   :type       :string
+-  :default    "Lato"
++  :default    "Inter"
+   :feature    :whitelabel
+   :audit      :getter
+   :setter     (fn [new-value]
+@@ -193,7 +193,7 @@ See [fonts](../configuring-metabase/fonts.md).")
+   :type       :string
+   :audit      :getter
+   :feature    :whitelabel
+-  :default    "app/assets/img/logo.svg"
++  :default    "app/assets/img/brazuca/logo.png"
+   :doc "Inline styling and inline scripts are not supported.")
+ 
+ (defsetting application-favicon-url
+@@ -204,7 +204,7 @@ See [fonts](../configuring-metabase/fonts.md).")
+   :type       :string
+   :audit      :getter
+   :feature    :whitelabel
+-  :default    "app/assets/img/favicon.ico")
++  :default    "app/assets/img/brazuca/favicon.png")
+ 
+ (defsetting show-metabot
+   (deferred-tru "Enables Metabot character on the home page")
+@@ -404,7 +404,7 @@ See [fonts](../configuring-metabase/fonts.md).")
+ (defsetting show-metabase-links
+   (deferred-tru "Whether or not to display Metabase links outside admin settings.")
+   :type       :boolean
+-  :default    true
++  :default    false
+   :visibility :public
+   :audit      :getter
+   :feature    :whitelabel)
+-- 
+2.43.0
+
