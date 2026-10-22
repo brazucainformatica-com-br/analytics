@@ -15,7 +15,9 @@ if ! command -v clojure >/dev/null; then
   bash /tmp/clj-install.sh >/dev/null && rm -f /tmp/clj-install.sh
 fi
 
-if ! node -v 2>/dev/null | grep -q "^${NODE_VERSION}$"; then
+# Usa o Node.js ja instalado no servidor (v22.x). So instala se nao houver nenhum,
+# para nao sobrepor a versao usada por outros sistemas do servidor.
+if ! command -v node >/dev/null; then
   curl -fsSL "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz" \
     | tar -xJ -C /usr/local --strip-components=1
 fi
