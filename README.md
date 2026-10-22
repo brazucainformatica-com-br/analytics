@@ -1,5 +1,8 @@
 # Analytics · Brazuca Informática
 
+> **Novo:** a pasta [`superset/`](superset/) contém o **LineaSuite BI**, baseado no Apache Superset 6.1 (Apache 2.0), com segurança por linha por cliente, incorporação, relatórios agendados e white-label sem alterar código-fonte. Veja [`superset/README.md`](superset/README.md).
+
+
 Plataforma de análise de dados da Brazuca Informática, publicada em `https://analytics.lineasuite.com.br`.
 
 É uma versão modificada do **Metabase Open Source** (edição OSS, licença AGPL v3). Este repositório contém o código-fonte correspondente, conforme exige a AGPL: o patch aplicado sobre a versão oficial do Metabase e os scripts para reproduzir a compilação.
